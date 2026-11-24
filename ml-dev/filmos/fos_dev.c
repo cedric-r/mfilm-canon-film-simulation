@@ -2361,12 +2361,12 @@ static int grain_clump(const struct fos_look *L, int w, int ref)
     return (int) (256.0f * sigma + 0.5f);
 }
 
-/* The width of the print the sensor's pixels two by two comes to: Darkrooms' own smallest size, half
- * of the frame it developed, which is the camera's Large. A print that wide or wider shows the grain
- * as the stock has it */
-FOS_INLINE int grain_half_w(const struct fos_dev *d)
+/* The width of the print the sensor's pixels two by two comes to, in the print's own orientation:
+ * Darkrooms' own smallest size, which is the camera's Large. A print that wide or wider shows the
+ * grain as the stock has it */
+static int grain_half_w(int crop_w, int crop_h, int portrait)
 {
-    return (d->rows_axis_x ? d->crop_h : d->crop_w) / 2;
+    return (portrait ? crop_h : crop_w) / 2;
 }
 
 /* What a print's size leaves of the grain's strength, 1/256: a print pixel that covers more than one
@@ -2375,6 +2375,9 @@ FOS_INLINE int grain_half_w(const struct fos_dev *d)
  * size (#104, #186) */
 static int grain_resolve(int w, int w_half)
 {
+    /* the crop's short side is not range-checked where its width is, so a malformed maker note can
+     * leave it tiny or negative: then there is no size to measure against and the grain stays the
+     * stock's (and no divide is taken) */
     if (w_half <= 0 || w >= w_half) return 256;
     int s = w * 256 / w_half;
     return s < 1 ? 1 : s;
@@ -2756,8 +2759,14 @@ static __attribute__((noinline)) void finish_grain(uint8_t *o, int n, unsigned s
  * pixel, for graintest */
 int fos_dev_test_grain_clump(const struct fos_look *f, int w, int full) { return grain_clump(f, w, full); }
 
-/* the grain alone, for graintest: h rows of w pixels at the film stock's strength, on the flat
- * grey given (no picture about it), in clumps of sigma c (1/256 of a pixel) */
+/* the width Darkrooms' own smallest print comes to on a frame of this crop and orientation, which is
+ * what grain_resolve measures a print against, for graintest */
+int fos_dev_test_grain_half_w(int crop_w, int crop_h, int portrait) { return grain_half_w(crop_w, crop_h, portrait); }
+
+/* the grain alone, for graintest: h rows of w pixels of a print w_half pixels wide or wider (the
+ * size Darkrooms' smallest print comes to), at the film stock's strength, on the flat grey given (no
+ * picture about it), in clumps of sigma c (1/256 of a pixel). It goes through the strength the camera
+ * draws with, so a law missing there cannot pass here (#188, review) */
 /* forget the plates and the sizes they were read at, so a test can set the knobs again and have
  * the next row build another pair: what the camera never does, and what the plate's checks need
  * to cover more than one size (#188) */
@@ -2771,11 +2780,11 @@ void fos_dev_test_plate_reset(void)
     plate_lg = -1; plate2_sz = -1;           /* and the sizes, which the camera never changes */
 }
 
-void fos_dev_test_grain(uint8_t *o, int w, int h, int c, int w_half, int grain, int mono, int level)
+void fos_dev_test_grain(uint8_t *o, int w, int h, int c, int w_half, float stock, int mono, int level)
 {
     int q3, q2, q1, q0;
     grain_taps(c, &q3, &q2, &q1, &q0);
-    grain = (int) (grain * grain_blur(q3, q2, q1, q0)) * grain_resolve(w, w_half) >> 8;
+    int grain = grain_strength(stock, w, w_half, q3, q2, q1, q0);
     for (int y = 0; y < h; y++)
     {
         memset(o + 3 * y * w, level, 3 * w);
@@ -2817,7 +2826,7 @@ static __attribute__((noinline)) void stage_finish(struct fos_dev *d, int y)
     finish_lut(d->pos, o + 3 * px0, pw);
     int c = grain_clump(L, pw, grain_ref(d)), q3, q2, q1, q0;
     grain_taps(c, &q3, &q2, &q1, &q0);
-    int grain = grain_strength(L->grain, pw, grain_half_w(d), q3, q2, q1, q0);
+    int grain = grain_strength(L->grain, pw, grain_half_w(d->crop_w, d->crop_h, d->rows_axis_x), q3, q2, q1, q0);
     /* the clump is the print's own width's, as the enlargement's is: the screen print is only
      * FOS_PRINT_W wide on a landscape frame, and a portrait or cropped one is narrower still */
     if (grain) finish_grain(o + 3 * px0, pw, d->seed, grain, L->mono, px0, y, q3, q2, q1, q0);
@@ -3027,7 +3036,7 @@ static __attribute__((noinline)) void big_finish(struct fos_dev *d, int y, uint8
     finish_lut(d->bcam, rgb, bw);
     int c = grain_clump(L, bw, grain_ref(d)), q3, q2, q1, q0;
     grain_taps(c, &q3, &q2, &q1, &q0);
-    int grain = grain_strength(L->grain, bw, grain_half_w(d), q3, q2, q1, q0);
+    int grain = grain_strength(L->grain, bw, grain_half_w(d->crop_w, d->crop_h, d->rows_axis_x), q3, q2, q1, q0);
     if (grain) finish_grain(rgb, bw, d->seed, grain, L->mono, 0, y, q3, q2, q1, q0);
     stamp_row(d->smask[1], d->sm_w[1], d->sm_h[1], rgb, bw, d->bh, y);
 }
