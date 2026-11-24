@@ -759,21 +759,36 @@ static uint32_t get32(const uint8_t *p) { return p[0] | p[1] << 8 | p[2] << 16 |
 /* "FOSF", version 1, the number of fonts; each font: bits, glyphs, kerning
  * pairs, ascent, descent (u32), then its bits, glyphs, lut and kerning,
  * each part starting on 4 bytes */
+/* A refusal zeroes every slot. The fonts are filled in as they are parsed, so a load that fails part
+ * way leaves the ones before it pointing into the blob it was reading, and the caller frees that blob
+ * when the load fails: the live-view HUD draws through those pointers every refresh and checks
+ * fos_fonts_ready() nowhere, only the UI's open path does. Zeroing the slots on the way in does not
+ * help - the parse overwrites them as it goes - so every failure comes out through here */
+static int fonts_refuse(void)
+{
+    for (int i = 0; i < NFONTS; i++) memset(font_slots[i], 0, sizeof(*font_slots[i]));
+    /* and the three copies the big UI draws through, which are filled in on the success path only */
+    memset(&fos_font_xs_fine, 0, sizeof(fos_font_xs_fine));
+    memset(&fos_font_sm_fine, 0, sizeof(fos_font_sm_fine));
+    memset(&fos_font_mdb_fine, 0, sizeof(fos_font_mdb_fine));
+    return 0;
+}
+
 int fos_fonts_load(const uint8_t *b, int size)
 {
     fonts_ready = 0;
     if (!b || size < 12 || memcmp(b, "FOSF", 4) || get32(b + 4) != 1 || (int) get32(b + 8) != NFONTS
         || sizeof(struct fos_glyph) != 8 || sizeof(struct fos_kern) != 3)
-        return 0;
+        return fonts_refuse();
     int at = 12;
     for (int i = 0; i < NFONTS; i++)
     {
-        if (at + 20 > size) return 0;
+        if (at + 20 > size) return fonts_refuse();
         uint32_t nbits = get32(b + at), nglyphs = get32(b + at + 4), nkern = get32(b + at + 8);
         int asc = (int) get32(b + at + 12), desc = (int) get32(b + at + 16);
         at += 20;
         uint32_t need = ((nbits + 3) & ~3u) + nglyphs * 8 + 256 + ((nkern * 3 + 3) & ~3u);
-        if (nbits > (uint32_t) size || nglyphs > 256 || nkern > 65536 || (uint32_t) (size - at) < need) return 0;
+        if (nbits > (uint32_t) size || nglyphs > 256 || nkern > 65536 || (uint32_t) (size - at) < need) return fonts_refuse();
         struct fos_font *f = font_slots[i];
         f->bits = b + at;               at += (nbits + 3) & ~3u;
         f->glyphs = (const struct fos_glyph *) (b + at);    at += nglyphs * 8;
@@ -785,7 +800,30 @@ int fos_fonts_load(const uint8_t *b, int size)
         f->descent = desc;
         /* every glyph the lut names must exist */
         for (int c = 0; c < 256; c++)
-            if (f->lut[c] != 0xFF && f->lut[c] >= nglyphs) { memset(f, 0, sizeof(*f)); return 0; }
+            if (f->lut[c] != 0xFF && f->lut[c] >= nglyphs) return fonts_refuse();
+        /* and every glyph has to point inside its bits, and its runs have to reach the w * h pixels
+         * it claims without leaving them: tex_glyph and draw_glyph walk those runs to that many
+         * pixels and trust this. Reserving room for the worst case a glyph could need
+         * instead rejects a small glyph near the end of a bitmap, whose runs are far shorter than
+         * w * h bytes, so the runs are walked here and counted as they come */
+        for (uint32_t g = 0; g < nglyphs; g++)
+        {
+            const struct fos_glyph *gl = &f->glyphs[g];
+            /* a glyph of no width never advances a column, so every reader of its runs would walk
+             * off the end rather than stop at the pixels it claims. The space glyphs are the other
+             * way about - a width with no rows - and they stay legal, and are never read at all */
+            if (!gl->w) return fonts_refuse();
+            /* the offset is not checked on its own. The walk below asks for the first byte at it and
+             * stops the font when that is already past the bits; and a glyph with no rows is never
+             * read, so refusing one for an offset nothing would use is a worse rule than this */
+            uint32_t px = (uint32_t) gl->w * gl->h, at2 = gl->off, got = 0;
+            while (got < px)
+            {
+                if (at2 >= nbits) return fonts_refuse();
+                int b = f->bits[at2++];
+                got += (b & 0x80) ? ((b & 0x7F) + 1) : ((b >> 4) + 1);
+            }
+        }
     }
     fos_font_xs_fine = fos_font_xs;
     fos_font_sm_fine = fos_font_sm;
@@ -836,12 +874,13 @@ static void draw_glyph(struct fos_canvas *cv, const struct fos_font *f, const st
     if (!w || !h) return;
     if (gx >= cv->cx1 || gy >= cv->cy1 || gx + w <= cv->cx0 || gy + h <= cv->cy0) return;
 
-    const uint8_t *p = f->bits + g->off;
+    const uint8_t *p = f->bits + g->off, *end = (const uint8_t *) f->glyphs;
     int col = 0, row = 0;
     int inside = gx >= cv->cx0 && gx + w <= cv->cx1 && gy >= cv->cy0 && gy + h <= cv->cy1;
     int memo_dst = -1, memo_a = -1, memo_out = 0;
     while (row < h)
     {
+        if (p >= end) return;
         int b = *p++;
         int run, v;
         if (b & 0x80) { run = (b & 0x7F) + 1; v = 0; }
@@ -855,7 +894,8 @@ static void draw_glyph(struct fos_canvas *cv, const struct fos_font *f, const st
         int a = v == 15 ? alpha : (v * 17 * alpha) >> 8;
         if (inside)
         {
-            /* runs never pass the end of the bitmap, but may wrap rows */
+            /* the runs may wrap rows; they cannot pass the end of the bits, because the loader
+             * walked them and refused any glyph whose runs do not reach its w * h pixels */
             uint8_t *q = &PX(cv, gx + col, gy + row);
             if (a >= OPAQUE)
                 while (run--)
@@ -980,10 +1020,13 @@ int fos_text_map(uint8_t *px, int pitch, int w, int h, const struct fos_font *f,
         if (!g) continue;
         if (prev) pen += kern_of(f, prev, ch) + track;
         int gx = ((pen + 8) >> 4) + g->ox, gy = y + g->oy;
-        const uint8_t *p = f->bits + g->off;
+        const uint8_t *p = f->bits + g->off, *end = (const uint8_t *) f->glyphs;
         int col = 0, row = gy < h && gy + g->h > 0 ? 0 : g->h;    /* none of it in px: skip it (the HUD draws in bands) */
         while (row < g->h)
         {
+            /* the bits end where the glyph table begins; the loader has checked the runs, and this
+             * is the second line of defence for the HUD, which draws whatever it is given */
+            if (p >= end) break;
             int b = *p++;
             int run, v;
             if (b & 0x80) { run = (b & 0x7F) + 1; v = 0; }
