@@ -1,0 +1,658 @@
+    582  init: M-Film 0.2.4, fork build Nov 23 2026 12:21:10, roll 95 loaded 1 shot 0/36, startup 2 hud 1
+    892  main: started
+    912  fonts: 87240 bytes, loaded
+    925  films: 68 (24972 bytes, loaded)
+    930  read: card buffer ready
+    952  startup waiting: ml=1 lv=0 idle=0 movie=0 mode=2 gui=0
+   2152  startup check: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+   2159  hud: visible 0 plate 0 (enabled 1 roll 1 lv 0 movie 0 ui 1)
+   2375  film os: open; Canon GUI mode 2 (asked 2) after 216 ms, hold taken
+   2381  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+   2391  canon palette 1-7: 3feb0000 3f000000 1f000000 3f52d23a 3f9029b0 3f5bcdbf 3f66c7b8
+   2394  canon palette 8-15: 3f5dcc64 3f4054d2 3fd30000 3f2c2ff5 3f3cde65 3f1355f3 3f4e2b58 3fb09d18
+  60032  main: alive, roll 95 loaded 1 shot 0/36 file 7793
+  64777  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+  64783  film os: 79 frames in 1764 ms = 44/s; per frame 6 ms draw (4 canisters) + 8 present + 7 rest, worst 49, open 37 ms, quality 2
+  70726  key: home
+  70925  film os: open; Canon GUI mode 2 (asked 2) after 191 ms, hold taken
+  70931  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+  74569  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+  74575  film os: 27 frames in 398 ms = 67/s; per frame 6 ms draw (0 canisters) + 3 present + 5 rest, worst 26, open 91 ms, quality 2
+  75445  key: home
+  75665  film os: open; Canon GUI mode 2 (asked 2) after 213 ms, hold taken
+  75671  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+  80258  roll 095 rewound at 0/36
+  80269  roll 096 loaded: cinestill800t, 36 exp
+  82667  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+  82673  film os: 95 frames in 3267 ms = 29/s; per frame 22 ms draw (12 canisters) + 6 present + 6 rest, worst 54, open 91 ms, quality 1
+  89832  frames: file 7793 -> 7794, logging 1
+  91942  frames: file 7794 -> 7795, logging 1
+ 109252  frames: file 7795 -> 7796, logging 1
+ 120073  main: alive, roll 96 loaded 1 shot 3/36 file 7796
+ 124022  frames: file 7796 -> 7797, logging 1
+ 134532  frames: file 7797 -> 7798, logging 1
+ 136510  frames: file 7798 -> 7799, logging 1
+ 141472  frames: file 7799 -> 7800, logging 1
+ 144782  frames: file 7800 -> 7801, logging 1
+ 154832  frames: file 7801 -> 7802, logging 1
+ 155462  frames: file 7802 -> 7803, logging 1
+ 160692  key: home
+ 160915  film os: open; Canon GUI mode 2 (asked 2) after 217 ms, hold taken
+ 160921  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+ 167959  roll 096 rewound at 10/36
+ 169465  darkroom: developing; memory free: malloc 379 KB, AllocateMemory 1790 KB
+ 170158  darkroom: roll 096 (cinestill800t): 10 frames, 10 RAW files
+ 170227  darkroom: JPEGs in B:/DCIM/Nov1123 CineStill800T 2
+ 170618  dev: a 2736 x 1824 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 170624  dev: IMG_7794.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+ 180074  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 181221  screen: dimmed from 4
+ 210092  screen: brightness back to 4
+ 223432  screen: dimmed from 4
+ 224663  screen: brightness back to 4
+ 225056  dev: frame 1: read 11597 ms, expose 469, finish 2041, jpeg 0, palette 469, big print 38709 (2736 x 1824), write 21
+ 225059  darkroom: roll 096 frame 1 developed in 54890 ms, 2736 x 1824
+ 225500  dev: a 2736 x 1824 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 225507  dev: IMG_7795.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+ 227751  screen: dimmed from 4
+ 240143  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 263457  screen: brightness back to 4
+ 266082  screen: dimmed from 4
+ 279785  dev: frame 2: read 11336 ms, expose 471, finish 2051, jpeg 0, palette 478, big print 38753 (2736 x 1824), write 21
+ 279789  darkroom: roll 096 frame 2 developed in 54559 ms, 2736 x 1824
+ 280235  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 280242  dev: IMG_7796.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 300280  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 331603  screen: brightness back to 4
+ 335436  dev: frame 3: read 14953 ms, expose 229, finish 1428, jpeg 0, palette 400, big print 37234 (1824 x 2736), write 22
+ 335439  darkroom: roll 096 frame 3 developed in 55479 ms, 1824 x 2736
+ 335879  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 335886  dev: IMG_7797.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 360363  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 386514  screen: dimmed from 4
+ 387351  screen: brightness back to 4
+ 391199  dev: frame 4: read 14995 ms, expose 230, finish 1425, jpeg 0, palette 401, big print 37388 (1824 x 2736), write 25
+ 391202  darkroom: roll 096 frame 4 developed in 55590 ms, 1824 x 2736
+ 391644  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 391651  dev: IMG_7798.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 420440  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 446538  dev: frame 5: read 13586 ms, expose 220, finish 1430, jpeg 0, palette 423, big print 38262 (1824 x 2736), write 24
+ 446542  darkroom: roll 096 frame 5 developed in 55170 ms, 1824 x 2736
+ 446984  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 446991  dev: IMG_7799.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 452091  screen: dimmed from 4
+ 467781  screen: brightness back to 4
+ 469583  screen: dimmed from 4
+ 480569  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 501989  dev: frame 6: read 13599 ms, expose 219, finish 1431, jpeg 0, palette 420, big print 38327 (1824 x 2736), write 25
+ 501992  darkroom: roll 096 frame 6 developed in 55280 ms, 1824 x 2736
+ 502433  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 502439  dev: IMG_7800.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 521125  screen: brightness back to 4
+ 521582  screen: dimmed from 4
+ 522462  screen: brightness back to 4
+ 524582  screen: dimmed from 4
+ 540586  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 557166  dev: frame 7: read 14433 ms, expose 229, finish 1427, jpeg 0, palette 410, big print 37326 (1824 x 2736), write 22
+ 557170  darkroom: roll 096 frame 7 developed in 55010 ms, 1824 x 2736
+ 557609  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 557616  dev: IMG_7801.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 557640  screen: brightness back to 4
+ 563690  screen: dimmed from 4
+ 576381  screen: brightness back to 4
+ 583593  screen: dimmed from 4
+ 600746  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 612356  dev: frame 8: read 14450 ms, expose 228, finish 1425, jpeg 0, palette 411, big print 37279 (1824 x 2736), write 22
+ 612359  darkroom: roll 096 frame 8 developed in 55020 ms, 1824 x 2736
+ 612804  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 612810  dev: IMG_7802.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 635561  screen: brightness back to 4
+ 644613  screen: dimmed from 4
+ 660819  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 668676  dev: frame 9: read 14912 ms, expose 232, finish 1432, jpeg 0, palette 407, big print 37935 (1824 x 2736), write 22
+ 668682  darkroom: roll 096 frame 9 developed in 56150 ms, 1824 x 2736
+ 669121  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 669127  dev: IMG_7803.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 718584  screen: brightness back to 4
+ 720843  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 724939  dev: frame 10: read 14850 ms, expose 231, finish 1429, jpeg 0, palette 413, big print 37884 (1824 x 2736), write 25
+ 724942  darkroom: roll 096 frame 10 developed in 56090 ms, 1824 x 2736
+ 725606  darkroom: done; memory free: malloc 379 KB, AllocateMemory 1790 KB
+ 729437  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+ 729444  film os: 1548 frames in 17278 ms = 89/s; per frame 3 ms draw (0 canisters) + 0 present + 6 rest, worst 99, open 90 ms, quality 2
+ 730170  key: home
+ 730395  film os: open; Canon GUI mode 2 (asked 2) after 218 ms, hold taken
+ 730401  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+ 736231  film os: closed: ml=1 lv=0 idle=0 movie=0 mode=2 gui=0
+ 736237  film os: 17 frames in 340 ms = 50/s; per frame 9 ms draw (0 canisters) + 3 present + 6 rest, worst 20, open 78 ms, quality 2
+    584  init: M-Film 0.2.4, fork build Nov 23 2026 12:21:10, roll 96 loaded 0 shot 10/36, startup 2 hud 1
+    892  main: started
+    912  fonts: 87240 bytes, loaded
+    943  films: 68 (24972 bytes, loaded)
+    947  read: card buffer ready
+    952  startup waiting: ml=1 lv=0 idle=0 movie=0 mode=2 gui=0
+   2152  startup check: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+   2159  hud: visible 0 plate 0 (enabled 1 roll 0 lv 0 movie 0 ui 1)
+   2375  film os: open; Canon GUI mode 2 (asked 2) after 216 ms, hold taken
+   2382  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+   2388  canon palette 1-7: 3feb0000 3f000000 1f000000 3f52d23a 3f9029b0 3f5bcdbf 3f66c7b8
+   2391  canon palette 8-15: 3f5dcc64 3f4054d2 3fd30000 3f2c2ff5 3f3cde65 3f1355f3 3f4e2b58 3fb09d18
+  39528  darkroom: developing; memory free: malloc 384 KB, AllocateMemory 1799 KB
+  40218  darkroom: roll 096 (cinestill800t): 10 frames, 10 RAW files
+  40273  darkroom: JPEGs in B:/DCIM/Nov1123 CineStill800T
+  40546  dev: IMG_7794.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  55505  dev: frame 1: read 11048 ms, expose 469, finish 2044, jpeg 496, palette 469, big print 0 (0 x 0), write 34
+  55508  darkroom: roll 096 frame 1 developed in 15100 ms, 720 x 480
+  55804  dev: IMG_7795.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  60054  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+  68789  dev: frame 2: read 9082 ms, expose 463, finish 2044, jpeg 499, palette 476, big print 0 (0 x 0), write 33
+  68793  darkroom: roll 096 frame 2 developed in 12930 ms, 720 x 480
+  69095  dev: IMG_7796.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+  81865  dev: frame 3: read 10140 ms, expose 228, finish 1427, jpeg 221, palette 398, big print 0 (0 x 0), write 33
+  81868  darkroom: roll 096 frame 3 developed in 12791 ms, 320 x 480
+  82160  dev: IMG_7797.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+  92620  screen: dimmed from 4
+  93741  screen: brightness back to 4
+  94996  dev: frame 4: read 10175 ms, expose 231, finish 1430, jpeg 222, palette 399, big print 0 (0 x 0), write 33
+  95002  darkroom: roll 096 frame 4 developed in 12851 ms, 320 x 480
+  95294  dev: IMG_7798.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 100411  screen: dimmed from 4
+ 106760  dev: frame 5: read 8821 ms, expose 218, finish 1426, jpeg 217, palette 422, big print 0 (0 x 0), write 33
+ 106764  darkroom: roll 096 frame 5 developed in 11461 ms, 320 x 480
+ 107053  dev: IMG_7799.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 118540  dev: frame 6: read 8837 ms, expose 219, finish 1428, jpeg 215, palette 422, big print 0 (0 x 0), write 34
+ 118544  darkroom: roll 096 frame 6 developed in 11481 ms, 320 x 480
+ 118840  dev: IMG_7800.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 120107  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 131087  dev: frame 7: read 9613 ms, expose 226, finish 1425, jpeg 227, palette 410, big print 0 (0 x 0), write 26
+ 131090  darkroom: roll 096 frame 7 developed in 12261 ms, 320 x 480
+ 131377  dev: IMG_7801.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 143655  dev: frame 8: read 9624 ms, expose 226, finish 1426, jpeg 223, palette 408, big print 0 (0 x 0), write 34
+ 143661  darkroom: roll 096 frame 8 developed in 12281 ms, 320 x 480
+ 143953  dev: IMG_7802.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 156766  dev: frame 9: read 10144 ms, expose 229, finish 1427, jpeg 222, palette 408, big print 0 (0 x 0), write 45
+ 156770  darkroom: roll 096 frame 9 developed in 12811 ms, 320 x 480
+ 157058  dev: IMG_7803.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 169807  dev: frame 10: read 10076 ms, expose 229, finish 1429, jpeg 222, palette 411, big print 0 (0 x 0), write 34
+ 169810  darkroom: roll 096 frame 10 developed in 12751 ms, 320 x 480
+ 170483  darkroom: done; memory free: malloc 383 KB, AllocateMemory 1799 KB
+ 170494  screen: brightness back to 4
+ 177868  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+ 177875  film os: 579 frames in 11252 ms = 51/s; per frame 9 ms draw (2 canisters) + 2 present + 6 rest, worst 99, open 32 ms, quality 2
+ 180112  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+    552  init: M-Film 0.2.4, fork build Nov 23 2026 12:21:10, roll 96 loaded 0 shot 10/36, startup 2 hud 1
+    862  main: started
+    885  fonts: 87240 bytes, loaded
+    895  films: 68 (24972 bytes, loaded)
+    900  read: card buffer ready
+    922  startup waiting: ml=1 lv=0 idle=0 movie=0 mode=2 gui=0
+   2122  startup check: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+   2129  hud: visible 0 plate 0 (enabled 1 roll 0 lv 0 movie 0 ui 1)
+   2345  film os: open; Canon GUI mode 2 (asked 2) after 216 ms, hold taken
+   2351  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+   2357  canon palette 1-7: 3feb0000 3f000000 1f000000 3f52d23a 3f9029b0 3f5bcdbf 3f66c7b8
+   2362  canon palette 8-15: 3f5dcc64 3f4054d2 3fd30000 3f2c2ff5 3f3cde65 3f1355f3 3f4e2b58 3fb09d18
+  18897  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+  18904  film os: 79 frames in 1663 ms = 47/s; per frame 5 ms draw (4 canisters) + 8 present + 6 rest, worst 48, open 33 ms, quality 2
+  20036  key: home
+  20256  film os: open; Canon GUI mode 2 (asked 2) after 213 ms, hold taken
+  20263  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+  31921  darkroom: developing; memory free: malloc 384 KB, AllocateMemory 1799 KB
+  32608  darkroom: roll 096 (cinestill800t): 10 frames, 10 RAW files
+  32664  darkroom: JPEGs in B:/DCIM/Nov1123 CineStill800T
+  33012  dev: a 1824 x 1216 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+  33018  dev: IMG_7794.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  36650  screen: dimmed from 4
+  60075  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+  65897  dev: frame 1: read 11406 ms, expose 470, finish 2041, jpeg 0, palette 469, big print 17805 (1824 x 1216), write 24
+  65901  darkroom: roll 096 frame 1 developed in 33050 ms, 1824 x 1216
+  66269  dev: a 1824 x 1216 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+  66274  dev: IMG_7795.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  98907  dev: frame 2: read 11176 ms, expose 471, finish 2042, jpeg 0, palette 477, big print 17799 (1824 x 1216), write 27
+  98911  darkroom: roll 096 frame 2 developed in 32610 ms, 1824 x 1216
+  99280  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+  99285  dev: IMG_7796.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 120151  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 133644  dev: frame 3: read 14098 ms, expose 230, finish 1423, jpeg 0, palette 399, big print 17559 (1216 x 1824), write 30
+ 133651  darkroom: roll 096 frame 3 developed in 34400 ms, 1216 x 1824
+ 134013  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 134017  dev: IMG_7797.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 168411  dev: frame 4: read 14088 ms, expose 229, finish 1421, jpeg 0, palette 403, big print 17639 (1216 x 1824), write 26
+ 168415  darkroom: roll 096 frame 4 developed in 34429 ms, 1216 x 1824
+ 168777  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 168781  dev: IMG_7798.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 180165  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 202142  dev: frame 5: read 12743 ms, expose 219, finish 1426, jpeg 0, palette 422, big print 17896 (1216 x 1824), write 26
+ 202146  darkroom: roll 096 frame 5 developed in 33399 ms, 1216 x 1824
+ 202519  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 202523  dev: IMG_7799.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 235951  dev: frame 6: read 12757 ms, expose 219, finish 1424, jpeg 0, palette 422, big print 17985 (1216 x 1824), write 26
+ 235955  darkroom: roll 096 frame 6 developed in 33630 ms, 1216 x 1824
+ 236315  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 236319  dev: IMG_7800.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 240174  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 270147  dev: frame 7: read 13513 ms, expose 229, finish 1416, jpeg 0, palette 413, big print 17617 (1216 x 1824), write 23
+ 270151  darkroom: roll 096 frame 7 developed in 34030 ms, 1216 x 1824
+ 270513  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 270516  dev: IMG_7801.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 300313  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 304401  dev: frame 8: read 13550 ms, expose 227, finish 1421, jpeg 0, palette 412, big print 17633 (1216 x 1824), write 26
+ 304405  darkroom: roll 096 frame 8 developed in 34080 ms, 1216 x 1824
+ 304767  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 304772  dev: IMG_7802.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 339501  dev: frame 9: read 14049 ms, expose 233, finish 1425, jpeg 0, palette 411, big print 17924 (1216 x 1824), write 26
+ 339505  darkroom: roll 096 frame 9 developed in 34931 ms, 1216 x 1824
+ 339863  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 339868  dev: IMG_7803.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 360438  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 372701  screen: brightness back to 4
+ 374421  dev: frame 10: read 13978 ms, expose 233, finish 1424, jpeg 0, palette 414, big print 17892 (1216 x 1824), write 27
+ 374424  darkroom: roll 096 frame 10 developed in 34750 ms, 1216 x 1824
+ 375086  darkroom: done; memory free: malloc 384 KB, AllocateMemory 1799 KB
+ 378052  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+ 378057  film os: 905 frames in 10208 ms = 88/s; per frame 3 ms draw (0 canisters) + 0 present + 7 rest, worst 100, open 79 ms, quality 1
+    584  init: M-Film 0.2.4, fork build Nov 22 2026 11:28:35, roll 96 loaded 0 shot 10/36, startup 2 hud 1
+    892  main: started
+    912  fonts: 87240 bytes, loaded
+    944  films: 68 (24972 bytes, loaded)
+    948  read: card buffer ready
+    952  startup waiting: ml=1 lv=0 idle=0 movie=0 mode=2 gui=0
+   2152  startup check: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+   2159  hud: visible 0 plate 0 (enabled 1 roll 0 lv 0 movie 0 ui 1)
+   2375  film os: open; Canon GUI mode 2 (asked 2) after 216 ms, hold taken
+   2381  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+   2387  canon palette 1-7: 3feb0000 3f000000 1f000000 3f52d23a 3f9029b0 3f5bcdbf 3f66c7b8
+   2391  canon palette 8-15: 3f5dcc64 3f4054d2 3fd30000 3f2c2ff5 3f3cde65 3f1355f3 3f4e2b58 3fb09d18
+   8467  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+   8474  film os: 68 frames in 1324 ms = 51/s; per frame 3 ms draw (2 canisters) + 8 present + 7 rest, worst 48, open 32 ms, quality 2
+  10072  key: home
+  10295  film os: open; Canon GUI mode 2 (asked 2) after 216 ms, hold taken
+  10301  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+  25760  darkroom: developing; memory free: malloc 384 KB, AllocateMemory 1799 KB
+  26448  darkroom: roll 096 (cinestill800t): 10 frames, 10 RAW files
+  26505  darkroom: JPEGs in B:/DCIM/Nov1123 CineStill800T
+  26779  dev: IMG_7794.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  41990  dev: frame 1: read 11036 ms, expose 471, finish 2302, jpeg 496, palette 464, big print 0 (0 x 0), write 33
+  41994  darkroom: roll 096 frame 1 developed in 15360 ms, 720 x 480
+  42325  dev: IMG_7795.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  60077  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+  62088  dev: frame 2: read 10647 ms, expose 469, finish 2302, jpeg 500, palette 465, big print 0 (0 x 0), write 33
+  62091  darkroom: roll 096 frame 2 developed in 19750 ms, 720 x 480
+  62426  dev: IMG_7796.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+  76477  dev: frame 3: read 11745 ms, expose 230, finish 1043, jpeg 220, palette 406, big print 0 (0 x 0), write 34
+  76482  darkroom: roll 096 frame 3 developed in 14179 ms, 320 x 480
+  76798  dev: IMG_7797.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+  90912  dev: frame 4: read 11810 ms, expose 229, finish 1045, jpeg 224, palette 412, big print 0 (0 x 0), write 33
+  90915  darkroom: roll 096 frame 4 developed in 14230 ms, 320 x 480
+  91245  dev: IMG_7798.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 103841  dev: frame 5: read 10378 ms, expose 219, finish 1047, jpeg 216, palette 405, big print 0 (0 x 0), write 33
+ 103844  darkroom: roll 096 frame 5 developed in 12720 ms, 320 x 480
+ 104165  dev: IMG_7799.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 116797  dev: frame 6: read 10400 ms, expose 219, finish 1046, jpeg 218, palette 415, big print 0 (0 x 0), write 34
+ 116801  darkroom: roll 096 frame 6 developed in 12750 ms, 320 x 480
+ 117119  dev: IMG_7800.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 120109  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 130638  dev: frame 7: read 11224 ms, expose 228, finish 1042, jpeg 223, palette 418, big print 0 (0 x 0), write 33
+ 130641  darkroom: roll 096 frame 7 developed in 13630 ms, 320 x 480
+ 130957  dev: IMG_7801.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 144494  dev: frame 8: read 11245 ms, expose 227, finish 1042, jpeg 226, palette 411, big print 0 (0 x 0), write 25
+ 144498  darkroom: roll 096 frame 8 developed in 13660 ms, 320 x 480
+ 144823  dev: IMG_7802.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 158923  dev: frame 9: read 11800 ms, expose 230, finish 1047, jpeg 223, palette 414, big print 0 (0 x 0), write 29
+ 158927  darkroom: roll 096 frame 9 developed in 14220 ms, 320 x 480
+ 159251  dev: IMG_7803.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 173267  dev: frame 10: read 11729 ms, expose 231, finish 1047, jpeg 220, palette 417, big print 0 (0 x 0), write 33
+ 173271  darkroom: roll 096 frame 10 developed in 14131 ms, 320 x 480
+ 173940  darkroom: done; memory free: malloc 384 KB, AllocateMemory 1799 KB
+ 176397  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+ 176403  film os: 483 frames in 8603 ms = 56/s; per frame 9 ms draw (0 canisters) + 1 present + 7 rest, worst 103, open 79 ms, quality 2
+ 180132  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+    602  init: M-Film 0.2.4, fork build Nov 22 2026 11:28:35, roll 96 loaded 0 shot 10/36, startup 2 hud 1
+    902  main: started
+    922  fonts: 87240 bytes, loaded
+    935  films: 68 (24972 bytes, loaded)
+    941  read: card buffer ready
+    945  startup waiting: ml=1 lv=0 idle=0 movie=0 mode=2 gui=0
+   2142  startup check: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+   2149  hud: visible 0 plate 0 (enabled 1 roll 0 lv 0 movie 0 ui 1)
+   2366  film os: open; Canon GUI mode 2 (asked 2) after 217 ms, hold taken
+   2373  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+   2379  canon palette 1-7: 3feb0000 3f000000 1f000000 3f52d23a 3f9029b0 3f5bcdbf 3f66c7b8
+   2382  canon palette 8-15: 3f5dcc64 3f4054d2 3fd30000 3f2c2ff5 3f3cde65 3f1355f3 3f4e2b58 3fb09d18
+  11517  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+  11523  film os: 68 frames in 1325 ms = 51/s; per frame 3 ms draw (2 canisters) + 8 present + 7 rest, worst 48, open 33 ms, quality 2
+  11824  key: home
+  12045  film os: open; Canon GUI mode 2 (asked 2) after 214 ms, hold taken
+  12051  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+  20960  darkroom: developing; memory free: malloc 384 KB, AllocateMemory 1799 KB
+  21648  darkroom: roll 096 (cinestill800t): 10 frames, 10 RAW files
+  21704  darkroom: JPEGs in B:/DCIM/Nov1123 CineStill800T
+  22053  dev: a 1824 x 1216 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+  22059  dev: IMG_7794.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  60317  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+  71008  dev: frame 1: read 11407 ms, expose 470, finish 2298, jpeg 0, palette 463, big print 33384 (1824 x 1216), write 34
+  71012  darkroom: roll 096 frame 1 developed in 49340 ms, 1824 x 1216
+  71398  dev: a 1824 x 1216 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+  71403  dev: IMG_7795.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+ 120021  dev: frame 2: read 11109 ms, expose 469, finish 2296, jpeg 0, palette 464, big print 33380 (1824 x 1216), write 27
+ 120025  darkroom: roll 096 frame 2 developed in 48829 ms, 1824 x 1216
+ 120406  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 120408  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 135643  screen: dimmed from 4
+ 170336  dev: frame 3: read 14019 ms, expose 229, finish 1048, jpeg 0, palette 407, big print 33426 (1216 x 1824), write 31
+ 170339  darkroom: roll 096 frame 3 developed in 50130 ms, 1216 x 1824
+ 170709  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 170713  dev: IMG_7797.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 180488  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 220693  dev: frame 4: read 14044 ms, expose 230, finish 1042, jpeg 0, palette 412, big print 33463 (1216 x 1824), write 38
+ 220697  darkroom: roll 096 frame 4 developed in 50171 ms, 1216 x 1824
+ 221064  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 221068  dev: IMG_7798.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 234623  screen: brightness back to 4
+ 239858  screen: dimmed from 4
+ 240744  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 270018  dev: frame 5: read 12677 ms, expose 221, finish 1046, jpeg 0, palette 405, big print 33735 (1216 x 1824), write 24
+ 270021  darkroom: roll 096 frame 5 developed in 49160 ms, 1216 x 1824
+ 270398  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 270402  dev: IMG_7799.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 300976  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 319398  dev: frame 6: read 12701 ms, expose 219, finish 1045, jpeg 0, palette 415, big print 33789 (1216 x 1824), write 24
+ 319401  darkroom: roll 096 frame 6 developed in 49209 ms, 1216 x 1824
+ 319771  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 319775  dev: IMG_7800.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 347401  screen: brightness back to 4
+ 349843  screen: dimmed from 4
+ 361246  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 369227  dev: frame 7: read 13465 ms, expose 228, finish 1040, jpeg 0, palette 416, big print 33516 (1216 x 1824), write 23
+ 369232  darkroom: roll 096 frame 7 developed in 49660 ms, 1216 x 1824
+ 369599  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 369602  dev: IMG_7801.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 415734  screen: brightness back to 4
+ 419038  dev: frame 8: read 13499 ms, expose 227, finish 1041, jpeg 0, palette 411, big print 33452 (1216 x 1824), write 23
+ 419045  darkroom: roll 096 frame 8 developed in 49640 ms, 1216 x 1824
+ 419418  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 419422  dev: IMG_7802.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 421364  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 422341  screen: dimmed from 4
+ 469640  dev: frame 9: read 13998 ms, expose 230, finish 1045, jpeg 0, palette 416, big print 33685 (1216 x 1824), write 26
+ 469645  darkroom: roll 096 frame 9 developed in 50429 ms, 1216 x 1824
+ 470011  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 470015  dev: IMG_7803.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 481390  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 508621  screen: brightness back to 4
+ 520200  dev: frame 10: read 13934 ms, expose 230, finish 1046, jpeg 0, palette 415, big print 33708 (1216 x 1824), write 26
+ 520205  darkroom: roll 096 frame 10 developed in 50389 ms, 1216 x 1824
+ 520865  darkroom: done; memory free: malloc 384 KB, AllocateMemory 1799 KB
+ 523960  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+ 523966  film os: 1189 frames in 12122 ms = 98/s; per frame 2 ms draw (0 canisters) + 0 present + 6 rest, worst 101, open 80 ms, quality 2
+    553  init: M-Film 0.2.4, fork build Nov 22 2026 11:28:35, roll 96 loaded 0 shot 10/36, startup 2 hud 1
+    862  main: started
+    882  fonts: 87240 bytes, loaded
+    895  films: 68 (24972 bytes, loaded)
+    900  read: card buffer ready
+    904  startup waiting: ml=1 lv=0 idle=0 movie=0 mode=2 gui=0
+   2102  startup check: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+   2109  hud: visible 0 plate 0 (enabled 1 roll 0 lv 0 movie 0 ui 1)
+   2325  film os: open; Canon GUI mode 2 (asked 2) after 216 ms, hold taken
+   2331  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+   2337  canon palette 1-7: 3feb0000 3f000000 1f000000 3f52d23a 3f9029b0 3f5bcdbf 3f66c7b8
+   2341  canon palette 8-15: 3f5dcc64 3f4054d2 3fd30000 3f2c2ff5 3f3cde65 3f1355f3 3f4e2b58 3fb09d18
+  11660  darkroom: developing; memory free: malloc 384 KB, AllocateMemory 1799 KB
+  12348  darkroom: roll 096 (cinestill800t): 10 frames, 10 RAW files
+  12401  darkroom: JPEGs in B:/DCIM/Nov1123 CineStill800T
+  12824  dev: a 2736 x 1824 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+  12830  dev: IMG_7794.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  60546  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+  90224  screen: dimmed from 4
+ 120645  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 136867  dev: frame 1: read 11573 ms, expose 466, finish 2301, jpeg 0, palette 465, big print 108129 (2736 x 1824), write 23
+ 136871  darkroom: roll 096 frame 1 developed in 124510 ms, 2736 x 1824
+ 137321  dev: a 2736 x 1824 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 137329  dev: IMG_7795.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+ 180950  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 241046  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 261110  dev: frame 2: read 11285 ms, expose 469, finish 2298, jpeg 0, palette 464, big print 108193 (2736 x 1824), write 26
+ 261114  darkroom: roll 096 frame 2 developed in 124069 ms, 2736 x 1824
+ 261571  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 261578  dev: IMG_7796.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 301481  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 354120  dev: frame 3: read 14958 ms, expose 229, finish 1043, jpeg 0, palette 406, big print 74454 (1824 x 2736), write 26
+ 354124  darkroom: roll 096 frame 3 developed in 92829 ms, 1824 x 2736
+ 354564  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 354572  dev: IMG_7797.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 361510  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 421652  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 447351  dev: frame 4: read 14999 ms, expose 229, finish 1042, jpeg 0, palette 413, big print 74583 (1824 x 2736), write 26
+ 447354  darkroom: roll 096 frame 4 developed in 93059 ms, 1824 x 2736
+ 447799  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 447805  dev: IMG_7798.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 481694  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 540117  dev: frame 5: read 13595 ms, expose 219, finish 1045, jpeg 0, palette 407, big print 75476 (1824 x 2736), write 23
+ 540121  darkroom: roll 096 frame 5 developed in 92599 ms, 1824 x 2736
+ 540570  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 540577  dev: IMG_7799.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 541835  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 601871  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 632917  dev: frame 6: read 13621 ms, expose 219, finish 1045, jpeg 0, palette 415, big print 75517 (1824 x 2736), write 23
+ 632925  darkroom: roll 096 frame 6 developed in 92629 ms, 1824 x 2736
+ 633368  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 633375  dev: IMG_7800.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 662149  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 667524  screen: brightness back to 4
+ 673293  screen: dimmed from 4
+ 722432  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 725661  dev: frame 7: read 14436 ms, expose 229, finish 1041, jpeg 0, palette 415, big print 74561 (1824 x 2736), write 27
+ 725665  darkroom: roll 096 frame 7 developed in 92569 ms, 1824 x 2736
+ 726105  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 726112  dev: IMG_7801.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 735909  screen: brightness back to 4
+ 739460  screen: dimmed from 4
+ 782475  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 818260  dev: frame 8: read 14452 ms, expose 227, finish 1042, jpeg 0, palette 410, big print 74486 (1824 x 2736), write 26
+ 818264  darkroom: roll 096 frame 8 developed in 92429 ms, 1824 x 2736
+ 818707  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 818714  dev: IMG_7802.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 842781  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 902917  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 911817  dev: frame 9: read 14901 ms, expose 231, finish 1046, jpeg 0, palette 414, big print 75026 (1824 x 2736), write 23
+ 911821  darkroom: roll 096 frame 9 developed in 93390 ms, 1824 x 2736
+ 912266  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 912273  dev: IMG_7803.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 961984  screen: brightness back to 4
+ 963274  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 989053  screen: dimmed from 4
+1005440  dev: frame 10: read 14837 ms, expose 230, finish 1046, jpeg 0, palette 416, big print 75146 (1824 x 2736), write 26
+1005444  darkroom: roll 096 frame 10 developed in 93449 ms, 1824 x 2736
+1006108  darkroom: done; memory free: malloc 384 KB, AllocateMemory 1799 KB
+1006116  screen: brightness back to 4
+1023293  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+1033840  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+1033846  film os: 2162 frames in 19387 ms = 111/s; per frame 1 ms draw (0 canisters) + 0 present + 6 rest, worst 101, open 33 ms, quality 1
+    562  init: M-Film 0.2.4, fork build Nov 20 2026 11:17:51, roll 96 loaded 0 shot 10/36, startup 2 hud 1
+    862  main: started
+    882  fonts: 87240 bytes, loaded
+    895  films: 68 (24972 bytes, loaded)
+    900  read: card buffer ready
+    904  startup waiting: ml=1 lv=0 idle=0 movie=0 mode=2 gui=0
+   2102  startup check: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+   2109  hud: visible 0 plate 0 (enabled 1 roll 0 lv 0 movie 0 ui 1)
+   2326  film os: open; Canon GUI mode 2 (asked 2) after 217 ms, hold taken
+   2333  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+   2339  canon palette 1-7: 3feb0000 3f000000 1f000000 3f52d23a 3f9029b0 3f5bcdbf 3f66c7b8
+   2343  canon palette 8-15: 3f5dcc64 3f4054d2 3fd30000 3f2c2ff5 3f3cde65 3f1355f3 3f4e2b58 3fb09d18
+  13499  darkroom: developing; memory free: malloc 384 KB, AllocateMemory 1802 KB
+  14189  darkroom: roll 096 (cinestill800t): 10 frames, 10 RAW files
+  14244  darkroom: JPEGs in B:/DCIM/Nov1123 CineStill800T
+  14667  dev: a 2736 x 1824 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+  14674  dev: IMG_7794.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  43133  screen: dimmed from 4
+  56714  dev: frame 1: read 11564 ms, expose 467, finish 749, jpeg 0, palette 453, big print 28121 (2736 x 1824), write 24
+  56718  darkroom: roll 096 frame 1 developed in 42230 ms, 2736 x 1824
+  57171  dev: a 2736 x 1824 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+  57178  dev: IMG_7795.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  60091  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+  98943  dev: frame 2: read 11284 ms, expose 469, finish 746, jpeg 0, palette 464, big print 28115 (2736 x 1824), write 26
+  98948  darkroom: roll 096 frame 2 developed in 41769 ms, 2736 x 1824
+  99402  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+  99409  dev: IMG_7796.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 120177  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 143663  dev: frame 3: read 14952 ms, expose 229, finish 351, jpeg 0, palette 388, big print 27442 (1824 x 2736), write 23
+ 143668  darkroom: roll 096 frame 3 developed in 44339 ms, 1824 x 2736
+ 144105  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 144111  dev: IMG_7797.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 180227  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 188534  dev: frame 4: read 14990 ms, expose 229, finish 348, jpeg 0, palette 399, big print 27572 (1824 x 2736), write 26
+ 188539  darkroom: roll 096 frame 4 developed in 44500 ms, 1824 x 2736
+ 188988  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 188995  dev: IMG_7798.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 233172  dev: frame 5: read 13587 ms, expose 219, finish 354, jpeg 0, palette 403, big print 28743 (1824 x 2736), write 27
+ 233176  darkroom: roll 096 frame 5 developed in 44250 ms, 1824 x 2736
+ 233620  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 233626  dev: IMG_7799.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 240259  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 277848  dev: frame 6: read 13622 ms, expose 219, finish 352, jpeg 0, palette 406, big print 28783 (1824 x 2736), write 23
+ 277854  darkroom: roll 096 frame 6 developed in 44299 ms, 1824 x 2736
+ 278298  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 278305  dev: IMG_7800.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 300388  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 322034  dev: frame 7: read 14432 ms, expose 229, finish 351, jpeg 0, palette 392, big print 27445 (1824 x 2736), write 27
+ 322038  darkroom: roll 096 frame 7 developed in 43810 ms, 1824 x 2736
+ 322483  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 322490  dev: IMG_7801.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 360452  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 366135  dev: frame 8: read 14428 ms, expose 228, finish 348, jpeg 0, palette 394, big print 27410 (1824 x 2736), write 23
+ 366138  darkroom: roll 096 frame 8 developed in 43719 ms, 1824 x 2736
+ 366589  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 366595  dev: IMG_7802.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 411567  dev: frame 9: read 14891 ms, expose 230, finish 355, jpeg 0, palette 402, big print 28191 (1824 x 2736), write 26
+ 411571  darkroom: roll 096 frame 9 developed in 45049 ms, 1824 x 2736
+ 412014  dev: a 1824 x 2736 print too (the sensor 2 x 2 to a pixel, 29241 KB in 29 pieces)
+ 412021  dev: IMG_7803.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 420542  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 456907  dev: frame 10: read 14829 ms, expose 232, finish 354, jpeg 0, palette 410, big print 28167 (1824 x 2736), write 24
+ 456911  darkroom: roll 096 frame 10 developed in 44960 ms, 1824 x 2736
+ 457581  darkroom: done; memory free: malloc 384 KB, AllocateMemory 1802 KB
+ 457590  screen: brightness back to 4
+ 480554  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 484456  film os: closed: ml=1 lv=0 idle=0 movie=0 mode=2 gui=0
+ 484462  film os: 1543 frames in 18161 ms = 84/s; per frame 3 ms draw (0 canisters) + 1 present + 6 rest, worst 99, open 33 ms, quality 2
+    552  init: M-Film 0.2.4, fork build Nov 20 2026 11:17:51, roll 96 loaded 0 shot 10/36, startup 2 hud 1
+    862  main: started
+    882  fonts: 87240 bytes, loaded
+    895  films: 68 (24972 bytes, loaded)
+    900  read: card buffer ready
+    905  startup waiting: ml=1 lv=0 idle=0 movie=0 mode=2 gui=0
+   2102  startup check: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+   2109  hud: visible 0 plate 0 (enabled 1 roll 0 lv 0 movie 0 ui 1)
+   2325  film os: open; Canon GUI mode 2 (asked 2) after 216 ms, hold taken
+   2331  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+   2337  canon palette 1-7: 3feb0000 3f000000 1f000000 3f52d23a 3f9029b0 3f5bcdbf 3f66c7b8
+   2341  canon palette 8-15: 3f5dcc64 3f4054d2 3fd30000 3f2c2ff5 3f3cde65 3f1355f3 3f4e2b58 3fb09d18
+  13449  darkroom: developing; memory free: malloc 384 KB, AllocateMemory 1802 KB
+  14139  darkroom: roll 096 (cinestill800t): 10 frames, 10 RAW files
+  14191  darkroom: JPEGs in B:/DCIM/Nov1123 CineStill800T
+  14467  dev: IMG_7794.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  18210  screen: dimmed from 4
+  28079  dev: frame 1: read 11036 ms, expose 469, finish 750, jpeg 452, palette 453, big print 0 (0 x 0), write 34
+  28083  darkroom: roll 096 frame 1 developed in 13770 ms, 720 x 480
+  28414  dev: IMG_7795.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  41602  dev: frame 2: read 10642 ms, expose 468, finish 753, jpeg 450, palette 462, big print 0 (0 x 0), write 36
+  41606  darkroom: roll 096 frame 2 developed in 13171 ms, 720 x 480
+  41933  dev: IMG_7796.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+  55214  dev: frame 3: read 11738 ms, expose 231, finish 352, jpeg 198, palette 388, big print 0 (0 x 0), write 32
+  55218  darkroom: roll 096 frame 3 developed in 13341 ms, 320 x 480
+  55538  dev: IMG_7797.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+  60001  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+  68898  dev: frame 4: read 11807 ms, expose 229, finish 352, jpeg 200, palette 395, big print 0 (0 x 0), write 33
+  68901  darkroom: roll 096 frame 4 developed in 13410 ms, 320 x 480
+  69221  dev: IMG_7798.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+  81080  dev: frame 5: read 10382 ms, expose 219, finish 357, jpeg 202, palette 403, big print 0 (0 x 0), write 33
+  81083  darkroom: roll 096 frame 5 developed in 11900 ms, 320 x 480
+  81406  dev: IMG_7799.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+  93292  dev: frame 6: read 10408 ms, expose 221, finish 354, jpeg 205, palette 405, big print 0 (0 x 0), write 35
+  93296  darkroom: roll 096 frame 6 developed in 11928 ms, 320 x 480
+  93620  dev: IMG_7800.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 106368  dev: frame 7: read 11217 ms, expose 230, finish 350, jpeg 201, palette 394, big print 0 (0 x 0), write 33
+ 106371  darkroom: roll 096 frame 7 developed in 12799 ms, 320 x 480
+ 106687  dev: IMG_7801.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 116320  screen: brightness back to 4
+ 118253  screen: dimmed from 4
+ 119489  dev: frame 8: read 11233 ms, expose 228, finish 351, jpeg 200, palette 395, big print 0 (0 x 0), write 34
+ 119494  darkroom: roll 096 frame 8 developed in 12850 ms, 320 x 480
+ 119822  dev: IMG_7802.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 120007  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 133195  dev: frame 9: read 11806 ms, expose 230, finish 357, jpeg 204, palette 402, big print 0 (0 x 0), write 29
+ 133199  darkroom: roll 096 frame 9 developed in 13420 ms, 320 x 480
+ 133519  dev: IMG_7803.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 146809  dev: frame 10: read 11723 ms, expose 230, finish 358, jpeg 202, palette 411, big print 0 (0 x 0), write 34
+ 146812  darkroom: roll 096 frame 10 developed in 13320 ms, 320 x 480
+ 147495  darkroom: done; memory free: malloc 384 KB, AllocateMemory 1802 KB
+ 147507  screen: brightness back to 4
+ 176037  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+ 176044  film os: 506 frames in 8159 ms = 62/s; per frame 6 ms draw (0 canisters) + 2 present + 7 rest, worst 99, open 33 ms, quality 1
+    582  init: M-Film 0.2.4, fork build Nov 20 2026 11:17:51, roll 96 loaded 0 shot 10/36, startup 2 hud 1
+    882  main: started
+    902  fonts: 87240 bytes, loaded
+    915  films: 68 (24972 bytes, loaded)
+    920  read: card buffer ready
+    924  startup waiting: ml=1 lv=0 idle=0 movie=0 mode=2 gui=0
+   2122  startup check: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+   2130  hud: visible 0 plate 0 (enabled 1 roll 0 lv 0 movie 0 ui 1)
+   2346  film os: open; Canon GUI mode 2 (asked 2) after 216 ms, hold taken
+   2353  film os: open: ml=1 lv=0 idle=0 movie=0 mode=2 gui=2
+   2359  canon palette 1-7: 3feb0000 3f000000 1f000000 3f52d23a 3f9029b0 3f5bcdbf 3f66c7b8
+   2362  canon palette 8-15: 3f5dcc64 3f4054d2 3fd30000 3f2c2ff5 3f3cde65 3f1355f3 3f4e2b58 3fb09d18
+  11798  darkroom: developing; memory free: malloc 384 KB, AllocateMemory 1802 KB
+  12488  darkroom: roll 096 (cinestill800t): 10 frames, 10 RAW files
+  12542  darkroom: JPEGs in B:/DCIM/Nov1123 CineStill800T
+  12890  dev: a 1824 x 1216 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+  12896  dev: IMG_7794.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  14314  screen: dimmed from 4
+  39093  dev: frame 1: read 11400 ms, expose 466, finish 749, jpeg 0, palette 454, big print 12532 (1824 x 1216), write 26
+  39097  darkroom: roll 096 frame 1 developed in 26410 ms, 1824 x 1216
+  39477  dev: a 1824 x 1216 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+  39481  dev: IMG_7795.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 1
+  60040  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+  65363  dev: frame 2: read 11101 ms, expose 469, finish 746, jpeg 0, palette 462, big print 12523 (1824 x 1216), write 26
+  65367  darkroom: roll 096 frame 2 developed in 25910 ms, 1824 x 1216
+  65747  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+  65750  dev: IMG_7796.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+  93660  dev: frame 3: read 14030 ms, expose 232, finish 350, jpeg 0, palette 387, big print 12288 (1216 x 1824), write 26
+  93664  darkroom: roll 096 frame 3 developed in 28119 ms, 1216 x 1824
+  94030  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+  94035  dev: IMG_7797.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 120094  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 121970  dev: frame 4: read 14041 ms, expose 228, finish 349, jpeg 0, palette 397, big print 12327 (1216 x 1824), write 26
+ 121974  darkroom: roll 096 frame 4 developed in 28140 ms, 1216 x 1824
+ 122347  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 122352  dev: IMG_7798.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 149444  dev: frame 5: read 12676 ms, expose 219, finish 352, jpeg 0, palette 405, big print 12810 (1216 x 1824), write 27
+ 149448  darkroom: roll 096 frame 5 developed in 27170 ms, 1216 x 1824
+ 149816  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 149821  dev: IMG_7799.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 176885  dev: frame 6: read 12703 ms, expose 219, finish 354, jpeg 0, palette 404, big print 12795 (1216 x 1824), write 26
+ 176889  darkroom: roll 096 frame 6 developed in 27140 ms, 1216 x 1824
+ 177264  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 177269  dev: IMG_7800.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 180211  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 204637  dev: frame 7: read 13485 ms, expose 229, finish 349, jpeg 0, palette 392, big print 12287 (1216 x 1824), write 23
+ 204641  darkroom: roll 096 frame 7 developed in 27580 ms, 1216 x 1824
+ 205009  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 205013  dev: IMG_7801.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 232392  dev: frame 8: read 13483 ms, expose 227, finish 351, jpeg 0, palette 392, big print 12279 (1216 x 1824), write 28
+ 232396  darkroom: roll 096 frame 8 developed in 27580 ms, 1216 x 1824
+ 232766  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 232770  dev: IMG_7802.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 240263  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 261008  dev: frame 9: read 13977 ms, expose 231, finish 354, jpeg 0, palette 402, big print 12675 (1216 x 1824), write 24
+ 261011  darkroom: roll 096 frame 9 developed in 28449 ms, 1216 x 1824
+ 261381  dev: a 1216 x 1824 print too (the sensor 3 x 3 to a pixel, 12996 KB in 13 pieces)
+ 261385  dev: IMG_7803.CR2 raw 5568x3708 (ljpeg 2784x3708, 2 comps, 14 bits) slices 1 x 2784 + 2784, picture 84,50 5472x3648, black cols 0..64, orientation 8
+ 273589  screen: brightness back to 4
+ 289618  dev: frame 10: read 13927 ms, expose 230, finish 354, jpeg 0, palette 413, big print 12652 (1216 x 1824), write 23
+ 289622  darkroom: roll 096 frame 10 developed in 28441 ms, 1216 x 1824
+ 290292  darkroom: done; memory free: malloc 384 KB, AllocateMemory 1802 KB
+ 300265  main: alive, roll 96 loaded 0 shot 10/36 file 7803
+ 305367  film os: closed: ml=1 lv=0 idle=1 movie=0 mode=2 gui=0
+ 305373  film os: 951 frames in 11308 ms = 84/s; per frame 3 ms draw (0 canisters) + 1 present + 6 rest, worst 100, open 32 ms, quality 2
