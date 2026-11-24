@@ -82,7 +82,13 @@ draws about it (eight, twenty-four or forty-eight of them, by how wide the clump
 film stock is mono) by the film stock's `grain_size`, and added strongest in the mid tones
 (`finish_grain`). `grain_size` is in pixels of the frame's *short side*, so a print w pixels wide
 spreads its grain w/3648 as far on a 6D -- half the frame's width, clumps half as wide -- and a clump
-narrower than a print pixel is a softer grain rather than none at all (#104, #186). The spread takes
+narrower than a print pixel is a softer grain rather than none at all (#104, #186). Below the size
+Darkrooms' own smallest print comes to -- the sensor's pixels two by two, which is the camera's Large --
+the paper cannot resolve the grain: a print pixel covers several clumps and averages them away, so the
+strength falls with the print's width (`grain_resolve`). A 320-wide screen print of a portrait frame
+carries a fifth of the grain its Large does, which is what that Large shows when it is looked at the
+screen print's size; at and above Darkrooms' size nothing of the strength depends on the size, so the
+match with Darkrooms is where it was measured. The spread takes
 the strength of a draw a pixel off it, and the strength is up by what it takes (`grain_blur`), as
 Darkrooms' own normalising does; the noise is strongest in the mid tones, and random, so two
 developers' grain never agrees pixel for pixel. Darkrooms and the camera therefore give the same grain

@@ -59,7 +59,7 @@ static double rho(double u)
  * beside it (the clump's width) and with the one two along */
 static void measure(int mono, int c, int level, double *strength, double *r1, double *r2)
 {
-    fos_dev_test_grain(print, W, H, c, 2400, mono, level);
+    fos_dev_test_grain(print, W, H, c, W, 2400, mono, level);
     double m = 0, v = 0, c1 = 0, c2 = 0;
     long n = 0;
     for (int y = 0; y < H; y++)
@@ -179,7 +179,7 @@ static void check_plate(const char *lg, const char *p2)
         double m, v, e, in, r0, r1;
         int ne, ni;
 
-        fos_dev_test_grain(platef, W, WF, 256, 2400, 0, 120);
+        fos_dev_test_grain(platef, W, WF, 256, W, 2400, 0, 120);
         mean_var(platef, W, WF, &m, &v);
 
         /* every place the plate's index runs off one of its edges in this field, against the same
@@ -330,6 +330,34 @@ int main(void)
             snprintf(b, sizeof(b), "a print smaller than a twelfth of the frame: %d/256 of a pixel",
                      fos_dev_test_grain_clump(slow, 400, 3456));
             ok("no clump at all where the print can't show it", fos_dev_test_grain_clump(slow, 400, 3456) <= 26, b);
+        /* Below the width Darkrooms' own smallest print comes to -- half the sensor each way, which
+         * is the camera's Large -- the paper cannot resolve the grain, and a pixel averages several
+         * clumps, so the grain is drawn in proportion to the print's width. At 320 of 1824 that is
+         * the same grain the frame's Large shows when it is looked at the screen print's size: a
+         * print that small used to carry as much grain as the Large, which is what the user saw as
+         * coarse grain (#104, #186). The same clump both times, so only the width is under test. */
+        {
+            double s[2] = { 0, 0 };
+            const int w[2] = { 720, 320 };
+            for (int i = 0; i < 2; i++)
+            {
+                fos_dev_test_grain(print, w[i], H, 179, 1824, 2400, 0, 120);
+                double m = 0, v = 0;
+                long n = 0;
+                for (int y = 0; y < H; y++)
+                    for (int x = 0; x < w[i]; x++)
+                    {
+                        double t = print[3 * (y * w[i] + x) + 1];
+                        m += t; v += t * t; n++;
+                    }
+                m /= n; v = v / n - m * m;
+                s[i] = sqrt(v);
+            }
+            snprintf(b, sizeof(b), "%.2f levels at 320 against %.2f at 720, %.3f of it against the width's %.3f",
+                     s[1], s[0], s[1] / s[0], 320.0 / 720.0);
+            ok("a print below Darkrooms' size carries the grain its width does",
+               fabs(s[1] / s[0] - 320.0 / 720.0) < 0.03, b);
+        }
         }
     }
 

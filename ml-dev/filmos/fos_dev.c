@@ -2361,6 +2361,25 @@ static int grain_clump(const struct fos_look *L, int w, int ref)
     return (int) (256.0f * sigma + 0.5f);
 }
 
+/* The width of the print the sensor's pixels two by two comes to: Darkrooms' own smallest size, half
+ * of the frame it developed, which is the camera's Large. A print that wide or wider shows the grain
+ * as the stock has it */
+FOS_INLINE int grain_half_w(const struct fos_dev *d)
+{
+    return (d->rows_axis_x ? d->crop_h : d->crop_w) / 2;
+}
+
+/* What a print's size leaves of the grain's strength, 1/256: a print pixel that covers more than one
+ * clump averages them away, so below the size Darkrooms' smallest print comes to, a print carries the
+ * grain in proportion to its width -- what the same frame's Large shows when it is looked at that
+ * size (#104, #186) */
+static int grain_resolve(int w, int w_half)
+{
+    if (w_half <= 0 || w >= w_half) return 256;
+    int s = w * 256 / w_half;
+    return s < 1 ? 1 : s;
+}
+
 /* The taps that draw Darkrooms' clump, 1/256, at clumps of 0, 1/32, 2/32 ... 1.5 pixels: the
  * centre, the one beside it, and the two and the three away. Each set is fitted so the drawn
  * clump's correlation at lags one to six is Darkrooms' own, which reads off its prints as one
@@ -2413,6 +2432,14 @@ static void grain_taps(int sigma, int *q3, int *q2, int *q1, int *q0)
 static float grain_blur(int q3, int q2, int q1, int q0)
 {
     return 65536.0f / (float) (q3 * q3 + 2 * (q2 * q2 + q1 * q1 + q0 * q0));
+}
+
+/* the strength the grain is drawn at: the stock's own, the camera's scaling, the spread's payback for
+ * the variance it takes out (grain_blur), and what this print's size can resolve of it */
+FOS_INLINE int grain_strength(float grain, int w, int w_half, int q3, int q2, int q1, int q0)
+{
+    int s = (int) (grain * 255 * GRAIN_GAIN * 256 * grain_blur(q3, q2, q1, q0));
+    return s * grain_resolve(w, w_half) >> 8;
 }
 
 /* The weight the grain is added by, 1/256, at the print's luma 0, 32, 64 ... 224 and 255: the lab's
@@ -2744,11 +2771,11 @@ void fos_dev_test_plate_reset(void)
     plate_lg = -1; plate2_sz = -1;           /* and the sizes, which the camera never changes */
 }
 
-void fos_dev_test_grain(uint8_t *o, int w, int h, int c, int grain, int mono, int level)
+void fos_dev_test_grain(uint8_t *o, int w, int h, int c, int w_half, int grain, int mono, int level)
 {
     int q3, q2, q1, q0;
     grain_taps(c, &q3, &q2, &q1, &q0);
-    grain = (int) (grain * grain_blur(q3, q2, q1, q0));
+    grain = (int) (grain * grain_blur(q3, q2, q1, q0)) * grain_resolve(w, w_half) >> 8;
     for (int y = 0; y < h; y++)
     {
         memset(o + 3 * y * w, level, 3 * w);
@@ -2790,7 +2817,7 @@ static __attribute__((noinline)) void stage_finish(struct fos_dev *d, int y)
     finish_lut(d->pos, o + 3 * px0, pw);
     int c = grain_clump(L, pw, grain_ref(d)), q3, q2, q1, q0;
     grain_taps(c, &q3, &q2, &q1, &q0);
-    int grain = (int) (L->grain * 255 * GRAIN_GAIN * 256 * grain_blur(q3, q2, q1, q0));
+    int grain = grain_strength(L->grain, pw, grain_half_w(d), q3, q2, q1, q0);
     /* the clump is the print's own width's, as the enlargement's is: the screen print is only
      * FOS_PRINT_W wide on a landscape frame, and a portrait or cropped one is narrower still */
     if (grain) finish_grain(o + 3 * px0, pw, d->seed, grain, L->mono, px0, y, q3, q2, q1, q0);
@@ -3000,7 +3027,7 @@ static __attribute__((noinline)) void big_finish(struct fos_dev *d, int y, uint8
     finish_lut(d->bcam, rgb, bw);
     int c = grain_clump(L, bw, grain_ref(d)), q3, q2, q1, q0;
     grain_taps(c, &q3, &q2, &q1, &q0);
-    int grain = (int) (L->grain * 255 * GRAIN_GAIN * 256 * grain_blur(q3, q2, q1, q0));
+    int grain = grain_strength(L->grain, bw, grain_half_w(d), q3, q2, q1, q0);
     if (grain) finish_grain(rgb, bw, d->seed, grain, L->mono, 0, y, q3, q2, q1, q0);
     stamp_row(d->smask[1], d->sm_w[1], d->sm_h[1], rgb, bw, d->bh, y);
 }
