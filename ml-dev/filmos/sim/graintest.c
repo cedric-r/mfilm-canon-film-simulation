@@ -29,6 +29,10 @@ void  fos_dev_test_sample(int x, int y, int v) { (void) x; (void) y; (void) v; }
 static uint8_t print[H * W * 3];
 static int fail;
 
+/* the film stock's grain that lands the strength chain on 2400, which is what these checks were
+ * read at */
+#define STOCK_GRAIN 0.021226112f
+
 static void ok(const char *what, int pass, const char *detail)
 {
     if (!pass) fail = 1;
@@ -59,7 +63,7 @@ static double rho(double u)
  * beside it (the clump's width) and with the one two along */
 static void measure(int mono, int c, int level, double *strength, double *r1, double *r2)
 {
-    fos_dev_test_grain(print, W, H, c, 2400, mono, level);
+    fos_dev_test_grain(print, W, H, c, W, STOCK_GRAIN, mono, level);
     double m = 0, v = 0, c1 = 0, c2 = 0;
     long n = 0;
     for (int y = 0; y < H; y++)
@@ -179,7 +183,7 @@ static void check_plate(const char *lg, const char *p2)
         double m, v, e, in, r0, r1;
         int ne, ni;
 
-        fos_dev_test_grain(platef, W, WF, 256, 2400, 0, 120);
+        fos_dev_test_grain(platef, W, WF, 256, W, STOCK_GRAIN, 0, 120);
         mean_var(platef, W, WF, &m, &v);
 
         /* every place the plate's index runs off one of its edges in this field, against the same
@@ -349,6 +353,53 @@ int main(void)
     check_plate("8", "257");
     check_plate("8", NULL);            /* one plate alone, which the camera never builds */
     check_plate("7", "127");
+    /* Below the width Darkrooms' own smallest print comes to -- half the sensor each way, which is
+     * the camera's Large -- the paper cannot resolve the grain, and a pixel averages several clumps,
+     * so the grain is drawn in proportion to the print's width: a print that small used to carry as
+     * much grain as the Large, which reads as coarse grain (#104, #186). Both draws come through the
+     * strength the camera draws with, so the law cannot be missing there and pass here. The same
+     * clump both times: only the width is under test. */
+    {
+        double s[2] = { 0, 0 };
+        const int w[2] = { 720, 320 };
+        for (int i = 0; i < 2; i++)
+        {
+            fos_dev_test_grain(print, w[i], H, 179, 1824, STOCK_GRAIN, 0, 120);
+            double m = 0, v = 0;
+            long n = 0;
+            for (int y = 0; y < H; y++)
+                for (int x = 0; x < w[i]; x++)
+                {
+                    double t = print[3 * (y * w[i] + x) + 1];
+                    m += t; v += t * t; n++;
+                }
+            m /= n; v = v / n - m * m;
+            s[i] = sqrt(v);
+        }
+        snprintf(b, sizeof(b), "%.2f levels at 320 against %.2f at 720, %.3f of it against the width's %.3f",
+                 s[1], s[0], s[1] / s[0], 320.0 / 720.0);
+        ok("a print below Darkrooms' size carries the grain its width does",
+           fabs(s[1] / s[0] - 320.0 / 720.0) < 0.03, b);
+
+        /* and the width it is measured against is the camera's Large print, in the frame's own
+         * orientation: read the frame's short side where the print's width goes and every print
+         * under the Large is scaled by the wrong number, which no other check here would see */
+        snprintf(b, sizeof(b), "6D 3:2 %d and %d, a 2:1 crop %d and %d",
+                 fos_dev_test_grain_half_w(5472, 3648, 0), fos_dev_test_grain_half_w(5472, 3648, 1),
+                 fos_dev_test_grain_half_w(5472, 2736, 0), fos_dev_test_grain_half_w(5472, 2736, 1));
+        ok("the reference is the Large print's own width",
+           fos_dev_test_grain_half_w(5472, 3648, 0) == 2736 && fos_dev_test_grain_half_w(5472, 3648, 1) == 1824 &&
+           fos_dev_test_grain_half_w(5472, 2736, 0) == 2736 && fos_dev_test_grain_half_w(5472, 2736, 1) == 1368, b);
+    }
+
+    /* The chain's own number, not a ratio of two draws: a uniform error in the strength leaves every
+     * other check here passing. This is the value the rest of the suite's numbers were read at
+     * (#188, review). */
+    {
+        int s = fos_dev_test_grain_strength(STOCK_GRAIN);
+        snprintf(b, sizeof(b), "STOCK_GRAIN with no spread comes to %d, against the 2400 the rest of the suite's numbers were read at", s);
+        ok("the strength's absolute scale is the one the checks were read at", s == 2400, b);
+    }
 
     printf("graintest: %s\n", fail ? "failed" : "all passed");
     return fail;
