@@ -613,6 +613,7 @@ static volatile int canon_handover = 0; /* the film OS closed with Canon's scree
  * Canon has its screen back, when its own flips are none of ours */
 static const uint8_t *vram_shown = 0;
 static int ui_after = 0;                /* what to do once it has let go */
+static const char *ui_left_for = 0;     /* why fos_port_abort had it leave, for the log; 0 if it left by itself */
 static int ui_last_mode_poke = 0;
 static int ui_last_palette = 0;
 
@@ -716,11 +717,17 @@ static int hold_again(const char *who)
  * wouldn't show for a moment outside LiveView (#19), left the 100D with the
  * hold never sticking and the buttons going to Canon (#73). The wait ends
  * as soon as Canon reports the mode, rather than after a fixed 200 ms, so
- * Canon's menu shows for less of a moment than on 0.1.5. */
+ * Canon's menu shows for less of a moment than on 0.1.5. On a DSLR shot
+ * through its viewfinder the display may be off, and may come on only after
+ * Canon reports the mode; the film OS leaves when it finds it off
+ * (fos_port_abort). So where it is still off after that wait, it is waited
+ * for too, as ML does after asking for Canon's menu (enter_menu_mode): before
+ * the hold, so Canon has put its own screen up, and for 1 s at most. */
 static void film_ui_open()
 {
     NotifyBoxHide();
     if (lv) bmp_off();
+    int on_before = DISPLAY_IS_ON, waited = 0;
     SetGUIRequestMode(GUIMODE_ML_MENU);
     int t0 = get_ms_clock(), landed = 0;
     for (int i = 0; i < 30; i++)
@@ -729,13 +736,24 @@ static void film_ui_open()
         if (CURRENT_GUI_MODE == GUIMODE_ML_MENU) { landed = 1; break; }
     }
     msleep(landed ? 50 : 0);                    /* and a moment for its screen to settle */
+    if (!DISPLAY_IS_ON)
+    {
+        int t1 = get_ms_clock();                /* by the clock: a sleep may take longer than asked */
+        while (!DISPLAY_IS_ON && get_ms_clock() - t1 < 1000 &&
+               !ui_abort && !ml_shutdown_requested && !get_halfshutter_pressed())
+            msleep(10);
+        waited = get_ms_clock() - t1;
+        msleep(DISPLAY_IS_ON ? 50 : 0);
+    }
+    int on = DISPLAY_IS_ON;
     canon_gui_disable_front_buffer();
     CancelDateTimer();
     clrscr();
     bmp_on();
     ui_last_mode_poke = get_ms_clock();
-    dbg("film os: open; Canon GUI mode %d (asked %d) after %d ms, hold %s", CURRENT_GUI_MODE, GUIMODE_ML_MENU,
-        ui_last_mode_poke - t0, hold_given_up ? "given up" : "taken");
+    dbg("film os: open; Canon GUI mode %d (asked %d) after %d ms, hold %s; display %s before, %s at the hold (waited %d ms)",
+        CURRENT_GUI_MODE, GUIMODE_ML_MENU, ui_last_mode_poke - t0, hold_given_up ? "given up" : "taken",
+        on_before ? "on" : "off", on ? "on" : "off", waited);
 }
 
 static void film_ui_close()
@@ -779,15 +797,20 @@ static void ui_task(int open)
     keyq_in = keyq_out = 0;
     ui_abort = 0;
     ui_after = 0;
+    ui_left_for = 0;
     film_ui_open();
     DBG_STATE("film os: open");
     memset(&stat_all, 0, sizeof(stat_all));
 
+    int t0 = get_ms_clock();
     fos_ui_run(open);
+    int ran = get_ms_clock() - t0, on = DISPLAY_IS_ON, gui = CURRENT_GUI_MODE;
+    const char *why = ui_left_for ? ui_left_for : "by itself";
 
     film_ui_close();
     ui_running = 0;
     hud_dirty = 1;
+    dbg("film os: left after %d ms: %s; display %s, Canon GUI mode %d", ran, why, on ? "on" : "off", gui);
     DBG_STATE("film os: closed");
     if (stat_all.frames)
     {
@@ -883,9 +906,9 @@ int fos_port_key()
 
 int fos_port_abort()
 {
-    if (ui_abort || ml_shutdown_requested || !DISPLAY_IS_ON)
-        return 1;
-    if (get_halfshutter_pressed())
+    ui_left_for = ui_abort ? "shutter or REC button" : ml_shutdown_requested ? "power off" :
+                  get_halfshutter_pressed() ? "half-press" : !DISPLAY_IS_ON ? "display off" : 0;
+    if (ui_left_for)
         return 1;
     /* a Canon dialog took over (low battery, card door...): give the mode
      * request time to land, then let go if Canon keeps something else up */
@@ -899,6 +922,7 @@ int fos_port_abort()
     {
         dbg("film os: Canon GUI mode %d, leaving", CURRENT_GUI_MODE);
         mismatch_since = 0;
+        ui_left_for = "Canon's GUI mode";
         return 1;
     }
     return 0;
