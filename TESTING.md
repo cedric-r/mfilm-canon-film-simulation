@@ -51,6 +51,9 @@ its line in the *Modules* tab says why. Tell us what it says.
 
 ## 2. Install
 
+On a [Canon EOS 1300D](#canon-eos-1300d) or [Canon EOS M2](#canon-eos-m2), read its section below
+first: the M2's card must not be formatted, and neither camera uses *Firmware ver.* → update.
+
 1. Format a card **in the camera**, then copy everything from the zip to the card's root.
 2. Camera off, card in, camera on. MENU → *Firmware ver.* → update (first time only: this lets the
    camera start Magic Lantern from the card).
@@ -222,8 +225,10 @@ which camera and firmware, and whether the card light stayed on.
 
 Format the card in the camera. To stop the camera looking for Magic Lantern at all, run
 `ML-SETUP.FIR` again from *Firmware ver.* and choose to remove the boot flag. On the 1300D, connect it to
-mlinstall and **Disable Boot Disk**. On the M2, the boot flag can't be removed with M-Film's zip, which has no
-`ML-SETUP.FIR`, and no one has tried mlinstall on an M2 yet.
+mlinstall and **Disable Boot Disk**. On the EOS M2, don't format the card: it has to keep its boot flags,
+and M-Film's zip has no `ML-SETUP.FIR` to put them back, or to remove the camera's boot flag (no one has
+tried mlinstall on an M2 yet). Instead, delete `autoexec.bin` and the `ML` folder from the card and copy
+back what you kept in step 1 of [Canon EOS M2](#canon-eos-m2).
 
 Thank you! Every camera someone tries moves it from *testing* to *working* in the
 [list on the front page](README.md#cameras).
