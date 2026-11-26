@@ -43,6 +43,8 @@ EOSM2.103     testing   605952      Canon EOS M2 | New, on a port of Magic Lante
 # 800D: Magic Lantern has no platform folder for it at all, so no firmware is named (#161)
 800D.-        no        -           Canon EOS 800D / Rebel T7i / Kiss X9i (Magic Lantern has no port for it yet)
 M50.110       no        -           Canon EOS M50
+# M6: Magic Lantern has no platform/M6.* folder (its dev branch has M6II.111, the M6 Mark II), so no firmware is named (#151)
+M6.-          no        -           Canon EOS M6 (Magic Lantern has no port for it yet)
 R.180         no        -           Canon EOS R
 RP.160        no        -           Canon EOS RP
 R5.152        no        -           Canon EOS R5
