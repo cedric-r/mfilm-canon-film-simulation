@@ -337,6 +337,31 @@ int main(void)
         }
     }
 
+    /* The scale a frame is divided by comes from the body's own name now, and the
+     * computer build has no camera configured: without the lookup every frame
+     * would be divided by the fallback, the EOS M's, which is 13.9 per cent out
+     * for a 6D (#132). */
+    {
+        ok("a 6D's name takes its own scale", fos_dev_test_white_for("Canon EOS 6D") == 15490, "15490");
+        ok("an alias is the same body", fos_dev_test_white_for("Canon EOS Rebel T3i") == 13584, "the 600D's 13584");
+        ok("the padding a body writes is trimmed", fos_dev_test_white_for("Canon EOS 6D    ") == 15490, "15490");
+        ok("a name we do not know leaves the build's scale", fos_dev_test_white_for("Canon EOS 9D") == 0, "0");
+        ok("a damaged name is not a body", fos_dev_test_white_for("Ca") == 0, "0");
+    }
+
+    /* The sensor's colours are per camera too, in the chain beside the scale, and the
+     * computer build has no camera configured: the frame's name has to take it to the
+     * ones its body has (#132). */
+    {
+        const float (*sixd)[3] = fos_dev_test_xyz_for("Canon EOS 6D");
+        const float (*eosm)[3] = fos_dev_test_xyz_for("Canon EOS M");
+        snprintf(b, sizeof(b), "the 6D's %.4f against the EOS M's %.4f",
+                 sixd ? (double) sixd[0][0] : -1.0, eosm ? (double) eosm[0][0] : -1.0);
+        ok("the frame's name takes its own sensor's colours",
+           sixd && eosm && sixd[0][0] > 0.70 && eosm[0][0] > 0.65 && sixd[0][0] != eosm[0][0], b);
+        ok("an unknown body leaves the build's own colours", fos_dev_test_xyz_for("Canon EOS 9D") == 0, "0");
+    }
+
     /* the camera's 257 fold, which the simulator never takes, has to be the modulo exactly */
     {
         int bad = 0;
