@@ -16,7 +16,9 @@ If nobody has tried yours yet, read TESTING.md there before you use it.
 Install
   On an EOS M2, read "EOS M2" below first: its steps are different.
   1. Check the camera's Canon firmware (MENU > the last settings tab > Firmware ver.).
-     It must be the version in this zip's name. If not, update Canon's firmware first.
+     It must be the version in this zip's name. If not, update Canon's firmware first (on the
+     1100D, Canon's newest is 1.0.6 and M-Film needs 1.0.5: on 1.0.6, go back to 1.0.5 with
+     Canon's 1.0.5 updater first).
   2. Format the card in the camera, then copy everything in this zip to its root. The card's top
      level must show autoexec.bin, ML-SETUP.FIR and the ML folder, not a folder with them inside
      (unzipping often makes one). Without the ML folder there, the update in step 3 stops with
@@ -79,9 +81,9 @@ start it. Bigger takes longer, and can be zoomed into in the camera. If the scre
 after the camera lost power while developing with the screen dimmed (INFO), switch it on once
 more: M-Film puts the brightness back when it starts.
 
-Remove: format the card in the camera, or delete autoexec.bin and ML/. On an EOS M2, formatting
-takes the card's boot flags with it, and this zip can't put them back: to keep them, delete
-autoexec.bin and ML/ instead.
+Remove: format the card in the camera, or delete autoexec.bin and ML/. On an EOS M2, don't format
+the card (formatting takes its boot flags with it, and this zip can't put them back): delete
+autoexec.bin and ML/, then copy back what you copied off the card in step a.
 Logs for a bug report: ML/FILMROLL.LOG on the card.
 
 Free software (GPL-2.0, LICENSE.txt; the source is at https://github.com/HNGSeries/mfilm-canon-film-simulation).
