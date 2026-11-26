@@ -1,31 +1,39 @@
 """Apply the film-mode fork changes to a magiclantern_simplified checkout.
 
     python3 apply_fork.py ~/ml/magiclantern_simplified [PLATFORM ...]
+    python3 apply_fork.py --undo ~/ml/magiclantern_simplified [PLATFORM ...]
 
 PLATFORM is a folder under platform/ (EOSM.202, 100D.101, 650D.104, 700D.115 ...);
 the default is EOSM.202. The source changes are shared, the platform ones are per camera.
 
-Idempotent: running it twice changes nothing. src/filmroll.c and .h, and
-the film OS sources (ml-dev/filmos/fos*.c, .h), are copied separately by
-build_fork.sh.
+Idempotent: running it twice changes nothing. --undo takes the fork's own edits back out so
+camera patches against the Magic Lantern base still apply and pass git's reverse check on a
+checkout an earlier build already touched. src/filmroll.c and .h, and the film OS sources
+(ml-dev/filmos/fos*.c, .h), are copied separately by build_fork.sh.
 """
 
 import re
 import sys
 from pathlib import Path
 
-root = Path(sys.argv[1])
+UNDO = "--undo" in sys.argv[1:]
 # --no-darkroom: the film OS without its in-camera darkroom (fos_nodark.c in its place), ~60 KB less at boot
-NO_DARKROOM = "--no-darkroom" in sys.argv[2:]
+NO_DARKROOM = "--no-darkroom" in sys.argv[1:]
 # --module: the film OS is a module (ML/modules/filmos.mo, built by build_fork.sh) loaded after boot;
 # autoexec.bin keeps only the three hooks (filmhook.c), ~190 KB less at boot
-MODULE = "--module" in sys.argv[2:]
-PLATFORMS = [a for a in sys.argv[2:] if not a.startswith("--")] or ["EOSM.202"]
+MODULE = "--module" in sys.argv[1:]
+ARGS = [a for a in sys.argv[1:] if not a.startswith("--")]
+root = Path(ARGS[0])
+PLATFORMS = ARGS[1:] or ["EOSM.202"]
 
 
 def edit(rel, old, new, marker):
     p = root / rel
     text = p.read_text()
+    if UNDO:
+        if marker in text and new in text:
+            p.write_text(text.replace(new, old, 1))
+        return
     if marker in text:
         print(f"  {rel}: already applied")
         return
@@ -106,14 +114,17 @@ edit("src/menu.c",
      '#include "filmroll.h"')
 
 # lua doesn't build with this toolchain (newlib header clash) and isn't needed
+LUA_NOTE = "# lua dropped by film-mode fork (newlib header clash with gcc 14)\n"
 edit("modules/Makefile",
      "    img_name \\\n    lua \\\n",
      "    img_name \\\n",
      "lua dropped by film-mode fork")
 p = root / "modules/Makefile"
-if "lua dropped by film-mode fork" not in p.read_text():
-    p.write_text(p.read_text().replace(
-        "ML_MODULES = \\\n", "# lua dropped by film-mode fork (newlib header clash with gcc 14)\nML_MODULES = \\\n", 1))
+if UNDO:
+    if LUA_NOTE in p.read_text():
+        p.write_text(p.read_text().replace(LUA_NOTE, "", 1))
+elif "lua dropped by film-mode fork" not in p.read_text():
+    p.write_text(p.read_text().replace("ML_MODULES = \\\n", LUA_NOTE + "ML_MODULES = \\\n", 1))
 
 # 6D only: a bigger share of Canon's AllocateMemory pool for autoexec.bin.
 # ML takes 0x44C000-0x4E0000 (592K) of the pool's 9152K (0x44C000-0xD3C000,
@@ -228,7 +239,38 @@ def platform(name):
         print(f"  {name}/modules.included: already applied")
 
 
+def unplatform(name):
+    """Take platform() back out of one camera's files so its camera patch reverse-checks cleanly."""
+    p = root / f"platform/{name}/features.h"
+    text = p.read_text()
+    text = re.sub(r"\n+/\* film-mode fork: lean, to fit at boot \*/\n(?:#undef FEATURE_\w+\n)+\n*", "\n", text)
+    text = re.sub(r"\n+/\* film-mode fork: the film OS is a module \(build_fork\.sh --module\) \*/\n#define FEATURE_FILMOS_MODULE\n+", "\n", text)
+    text = re.sub(r"\n+/\* film camera mode \(src/filmroll\.c\) \*/\n#define FEATURE_FILMROLL\n+", "\n", text)
+    if text != p.read_text():
+        p.write_text(text)
+
+    p = root / f"platform/{name}/Makefile"
+    lines = p.read_text().split("\n")
+    out, skip = [], False
+    for line in lines:
+        if skip:
+            skip = line.rstrip().endswith("\\")
+            continue
+        if line.startswith("ML_SRC_EXTRA_OBJS +=") and ("filmroll" in line or "fos_" in line or "filmhook" in line):
+            skip = line.rstrip().endswith("\\")
+            continue
+        out.append(line)
+    text = "\n".join(out)
+    if text != p.read_text():
+        p.write_text(text)
+
+
 for name in PLATFORMS:
     if not (root / "platform" / name).is_dir():
+        if UNDO:
+            continue
         sys.exit(f"  platform/{name}: no such camera in this Magic Lantern")
-    platform(name)
+    if UNDO:
+        unplatform(name)
+    else:
+        platform(name)
