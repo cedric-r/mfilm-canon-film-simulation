@@ -208,6 +208,20 @@ the times, not the lines.
 Attach the log and say when the flicker happens: when the camera is idle, when the meter moves,
 after each shot, or when you switch screens.
 
+### If M-Film's screen doesn't come up
+
+The camera works, but when M-Film should open, Canon's screen stays, or a black one. `ML/FILMROLL.LOG`
+says when the film OS opened, and what made it leave:
+- `film os: open; Canon GUI mode 2 (asked 2) after 230 ms, hold taken; display off before, on at the hold
+  (waited 70 ms)`: the camera's display was off when the film OS was asked for, and M-Film waited 70 ms
+  more for it to come on (it waits 1 s at most). `off at the hold`: it hadn't by then.
+- `film os: left after 30 ms: display off; display off, Canon GUI mode 2`: what made the film OS leave,
+  then the display and Canon's mode as it let go. `shutter or REC button` and `half-press` are the
+  camera's buttons, `power off` the camera being switched off, and `Canon's GUI mode` a screen of Canon's
+  own. `by itself` is one of its own pages closing it, or no memory for it (an `alloc:` line says so).
+
+Attach the log, and say what you pressed and what the screen did.
+
 ### If you turned on Magic Lantern's console
 
 The MENU button opens M-Film, so Magic Lantern's menu (where the console is switched off) can't be
