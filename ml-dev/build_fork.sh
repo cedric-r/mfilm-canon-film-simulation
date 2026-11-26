@@ -70,16 +70,21 @@ sed -i 's/\r$//' "$SRC"/src/filmroll.{c,h} "$SRC"/src/filmhook.c "$SRC"/src/fos*
 VERSION=$(tr -d ' \r\n' < "$HERE/../VERSION")
 printf '#define MFILM_VERSION "%s"\n' "$VERSION" > "$SRC/src/fos_version.h"
 echo "M-Film $VERSION"
-# this camera's own changes to Magic Lantern, where the base commit hasn't got them (fork/ml-patches/README.md)
-for P in "$HERE"/fork/ml-patches/"$PLAT"/*.patch; do
-    [ -e "$P" ] || continue
-    if git -C "$SRC" apply --reverse --check "$P" 2> /dev/null; then
-        echo "camera patch $(basename "$P"): already in the checkout"
-    else
-        git -C "$SRC" apply --whitespace=nowarn "$P" || { echo "camera patch $(basename "$P") doesn't apply to $SRC"; exit 1; }
-        echo "camera patch $(basename "$P"): applied"
-    fi
-done
+# this camera's own changes to Magic Lantern, where the base hasn't got them (fork/ml-patches/README.md).
+# An earlier build in the same checkout leaves apply_fork.py's edits on shared files (boot-d45-am.c) and on
+# platform/$PLAT/, which would block both git apply and its reverse check: step them back while checking.
+PATCHES=("$HERE"/fork/ml-patches/"$PLAT"/*.patch)
+if [ -e "${PATCHES[0]}" ]; then
+    python3 "$HERE/fork/apply_fork.py" --undo "$SRC" "$PLAT"
+    for P in "${PATCHES[@]}"; do
+        if git -C "$SRC" apply --reverse --check "$P" 2> /dev/null; then
+            echo "camera patch $(basename "$P"): already in the checkout"
+        else
+            git -C "$SRC" apply --whitespace=nowarn "$P" || { echo "camera patch $(basename "$P") doesn't apply to $SRC"; exit 1; }
+            echo "camera patch $(basename "$P"): applied"
+        fi
+    done
+fi
 python3 "$HERE/fork/apply_fork.py" "$SRC" "$PLAT" $NODARK $MODULE
 
 cd "$SRC/platform/$PLAT"
