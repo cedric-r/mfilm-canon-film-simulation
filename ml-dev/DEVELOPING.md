@@ -151,6 +151,58 @@ every pixel of the print, whether one of its colours reached `clip` (`FOS_DUMP_C
 be able to say the same for the frames of a reference, or its pictures have to be read with the
 darkroom's.
 
+## What the key does on a dark frame
+
+The floor in step 5 is what the average gives a pixel with no light in it: `ln(0 + 0.0001)` is about
+−9.2, against about −2.3 for a mid grey, so such a pixel pulls the log-average about four times as far
+as a mid grey does. A frame whose samples are largely black is therefore keyed far below a frame with no
+black in it, and is multiplied further to bring it to 0.11. Of eight frames on five film stocks, each
+developed at the darkroom’s Large size and set beside Darkrooms’ print of the same frame, read the
+check’s own way (30 × 20 blocks, mean dE2000, its limit 1), the one night frame is the one that stands
+away:
+
+| frame | film stock and frame | key | samples at or below 8/4096 | mean dE2000 |
+|---|---|---|---|---|
+| 7794 | CineStill 800T, night, 6D | 0.0229 | 9.3% | 0.63 |
+| 7797 | CineStill 800T, same roll | 0.0715 | 0.2% | 0.23 |
+| 7800 | CineStill 800T, same roll | 0.0894 | 0.1% | 0.29 |
+| 7734 | Tri-X 400 | 0.0602 | 0.0% | 0.17 |
+| 7737 | HP5 | 0.0907 | 0.0% | 0.17 |
+| 7738 | Superia 400 | 0.1076 | 0.0% | 0.21 |
+| 7735, 7736 | Velvia 50, slide | not measured | | 0.29 |
+
+The key column is read off `FOS_DUMP_LIN`, taking every fourth pixel each way at the camera’s print
+size, which is what step 5 counts. A slide film stock measures nothing, so its rows have no key. The
+frames are paired shots, of the kind `docs/paired-shot.md` describes, and are not in the repository, so
+these numbers can be re-read but not re-made from a fresh checkout. The floor is what moves the night
+frame: at 0.0004 in place of 0.0001 its exposure falls by 0.065 stops, which is what its own print
+implies, and each frame whose samples are not black moves by a hundredth of a stop or less.
+
+The floor was left where it is. It is there to keep the logarithm finite, its value for a raw is nearer
+one raw level in the camera’s white (6e-5), and a value that brings this frame to Darkrooms’ is fitted
+to the frame rather than derived from anything. The 0.63 is inside the limit of 1, so what is measured is
+how far two developers converge on a dark frame, not a fault in this step.
+
+These frames were read with the darkroom built so that a body’s scale and colours come from the frame.
+A computer build with no camera in it divides a 6D frame by the EOS M’s white level, and the same frame
+reads 0.91 in place of 0.63.
+
+What it is not, each measured: the raw’s black and white, which LibRaw agrees with (2047 and 15490 for
+this frame against the masked columns’ 2047.6 and the camera’s own constant); a soften or denoise stage,
+which the darkroom does not have, and a linear blur cannot move the mean of a block with no detail in it;
+registration, where a search for the best shift bottoms at no shift; the strength of the vignette, which
+moves the number the wrong way at half and at twice its present value.
+
+What is left, over the eight frames, is a difference of tone and not a shading shape. Fitting each
+frame’s block-by-block ratio against the local light and against position at once, the position terms
+come out at a third of what they look like alone, 0.05 to 0.3 per cent against a spread of 1.2 to 3.9
+per cent; holding the local light to the middle 40 per cent of its range cuts the contrast of edge
+against middle from 2.1 to 7.0 per cent down to 0.4 to 2.4 per cent, and the sign of what remains
+differs from frame to frame, so there is no one shape. What survives is largest in the darkest quarter
+of the picture, 1.7 to 3.5 per cent there against nothing measurable in the brightest, which is where
+the two programs’ shadows part company. None of this asks for a change to the vignette: its strength
+is right, and what is left over is not a shape.
+
 ## The check
 
 ```sh
