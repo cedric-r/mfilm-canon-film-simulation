@@ -389,6 +389,8 @@ struct fos_dev
     uint32_t *whist;                    /* the brightest samples, counted: WBINS bins for each colour (white_clip) */
     int wbase, wshift;                  /* a bin's first raw value: wbase + (bin << wshift) */
     int clip;                           /* where this frame's samples clip, 4096 = WHITE_LEVEL */
+    int white;                          /* the scale this frame's samples are divided by */
+    const float (*xyz)[3];              /* the sensor's colours this frame's body has */
     int wb[3];                          /* the white balance the camera wrote into the frame: red, green, blue; 0s if none */
     int pre[3];                         /* the frame's white balance and white level, raw/16 -> 1/4096, << 14 */
     int mat[3][3];                      /* camera -> linear sRGB, 1/4096 */
@@ -467,70 +469,50 @@ static int row_phase(int raw_w, int raw_h)
     return 0;
 }
 
-/* The sensor's colours, XYZ -> camera, and its white level: LibRaw's
- * colordata.cpp (the Adobe matrices), per camera the fork is built for.
- * The EOS M's is the default (and the 650D's, 700D's and 100D's: one sensor). */
-#define M3(a, b, c, d, e, f, g, h, i) { { a / 10000.f, b / 10000.f, c / 10000.f }, { d / 10000.f, e / 10000.f, f / 10000.f }, \
-                                        { g / 10000.f, h / 10000.f, i / 10000.f } }
-#if defined(CONFIG_6D) || defined(CONFIG_70D)
-static const float XYZ_CAM[3][3] = M3(7034, -804, -1014, -4420, 12564, 2058, -851, 1994, 5758);
-#elif defined(CONFIG_5D3)
-static const float XYZ_CAM[3][3] = M3(6722, -635, -963, -4287, 12460, 2028, -908, 2162, 5668);
-#elif defined(CONFIG_5D2)
-static const float XYZ_CAM[3][3] = M3(4716, 603, -830, -7798, 15474, 2480, -1496, 1937, 6651);
-#elif defined(CONFIG_7D)
-static const float XYZ_CAM[3][3] = M3(6844, -996, -856, -3876, 11761, 2396, -593, 1772, 6198);
-#elif defined(CONFIG_50D)
-static const float XYZ_CAM[3][3] = M3(4920, 616, -593, -6493, 13964, 2784, -1774, 3178, 7005);
-#elif defined(CONFIG_60D)
-static const float XYZ_CAM[3][3] = M3(6719, -994, -925, -4408, 12426, 2211, -887, 2129, 6051);
-#elif defined(CONFIG_500D)
-static const float XYZ_CAM[3][3] = M3(4763, 712, -646, -6821, 14399, 2640, -1921, 3276, 6561);
-#elif defined(CONFIG_550D)
-static const float XYZ_CAM[3][3] = M3(6941, -1164, -857, -3825, 11597, 2534, -416, 1540, 6039);
-#elif defined(CONFIG_600D)
-static const float XYZ_CAM[3][3] = M3(6461, -907, -882, -4300, 12184, 2378, -819, 1944, 5931);
-#elif defined(CONFIG_1100D)
-static const float XYZ_CAM[3][3] = M3(6444, -904, -893, -4563, 12308, 2535, -903, 2016, 6728);
-#elif defined(CONFIG_1300D)
-/* Magic Lantern's (modules/raw_video/mlv_rec/dng/camera_id.h, ColorMatrix2): not checked against a 1300D's RAWs yet */
-static const float XYZ_CAM[3][3] = M3(6939, -1016, -866, -4428, 12473, 2177, -1175, 2178, 6162);
-#else   /* EOS M, 100D, 650D, 700D */
-static const float XYZ_CAM[3][3] = { { 0.6602f, -0.0841f, -0.0939f }, { -0.4472f, 1.2458f, 0.2247f }, { -0.0975f, 0.2039f, 0.6148f } };
-#endif
+/* the bodies M-Film knows: the scale and the sensor's colours a frame's own body
+ * takes it to, generated from ml-dev/cameras.txt (tools/gencams.py, #132) */
+#include "fos_cams.h"
 static const float RGB_XYZ[3][3] = { { 0.4124564f, 0.3575761f, 0.1804375f }, { 0.2126729f, 0.7151522f, 0.0721750f },
                                      { 0.0193339f, 0.1191920f, 0.9503041f } };
-/* raw value of a full pixel (LibRaw's maximum); the EOS M's measured 13600.
- * This is the scale: what a frame's samples are divided by. Where a frame
- * clips is read from the frame itself (white_clip()), because that moves
- * with the ISO and this does not. */
-#if defined(CONFIG_6D)
-#define WHITE_LEVEL 15490
-#elif defined(CONFIG_70D)
-#define WHITE_LEVEL 15303
-#elif defined(CONFIG_5D3)
-#define WHITE_LEVEL 15488
-#elif defined(CONFIG_5D2)
-#define WHITE_LEVEL 15600
-#elif defined(CONFIG_7D) || defined(CONFIG_600D) || defined(CONFIG_1100D) || defined(CONFIG_1300D)
-#define WHITE_LEVEL 13584   /* 1300D: the 600D's, not measured on a 1300D yet */
-#elif defined(CONFIG_50D)
-#define WHITE_LEVEL 15763
-#elif defined(CONFIG_60D)
-#define WHITE_LEVEL 12279
-#elif defined(CONFIG_500D)
-#define WHITE_LEVEL 13433
-#elif defined(CONFIG_550D)
-#define WHITE_LEVEL 15831
-#elif defined(CONFIG_700D)
-#define WHITE_LEVEL 15360
-#elif defined(CONFIG_100D)
-#define WHITE_LEVEL 13583
-#elif defined(CONFIG_650D)
-#define WHITE_LEVEL 13645
-#else
-#define WHITE_LEVEL 13600
-#endif
+
+
+
+/* the row a frame's own name picks, -1 where the name is not one we know and
+ * the build's own numbers stand */
+static int body_index(const char *model)
+{
+    char b[64];
+    int n = 0;
+    while (model[n] && n < 63) { b[n] = model[n]; n++; }
+    while (n > 0 && b[n - 1] == ' ') n--;                 /* the padding a body writes */
+    b[n] = 0;
+    if (n < 4) return -1;
+    for (size_t i = 0; i < sizeof(BODIES) / sizeof(BODIES[0]); i++)
+    {
+        const char *t = BODIES[i].name;
+        int j = 0;
+        for (; b[j] && t[j]; j++)
+        {
+            int a = b[j] >= 'a' && b[j] <= 'z' ? b[j] - 32 : b[j];
+            int c = t[j] >= 'a' && t[j] <= 'z' ? t[j] - 32 : t[j];
+            if (a != c) break;
+        }
+        if (!b[j] && !t[j]) return (int) i;
+    }
+    return -1;
+}
+
+static int white_for_model(const char *model)
+{
+    int i = body_index(model);
+    return i < 0 ? 0 : BODIES[i].white;
+}
+
+static const float (*xyz_for_model(const char *model))[3]
+{
+    int i = body_index(model);
+    return i < 0 ? 0 : BODIES[i].xyz;
+}
 
 static int fail(struct fos_dev *d, const char *why)
 {
@@ -590,6 +572,24 @@ static int parse_tiff(struct fos_dev *d)
     unsigned ifd0 = u32le(h + 4), raw_ifd = u32le(h + 12);
     unsigned o = tiff_tag(d, ifd0, 0x0112, 0);
     d->orient = o >= 1 && o <= 8 ? (int) o : 1;
+
+    /* the body that took the frame (Canon's name for it), which fixes the
+     * scale below; the build's own number where it is not one we know */
+    d->white = WHITE_LEVEL; d->xyz = XYZ_CAM;
+    unsigned mc = 0, mo = tiff_tag(d, ifd0, 0x0110, &mc);
+    if (mo && mc >= 4 && mc <= 64)
+    {
+        char nm[65];
+        unsigned n = mc < sizeof(nm) ? mc : sizeof(nm) - 1;
+        if (read_at(d, mo, nm, n))
+        {
+            const float (*x)[3];
+            nm[n] = 0;
+            int w = white_for_model(nm);
+            if (w) d->white = w;
+            if ((x = xyz_for_model(nm))) d->xyz = x;
+        }
+    }
 
     /* the sensor's picture area from the Canon maker note, if it says */
     d->crop_l = -1;
@@ -1492,7 +1492,7 @@ static int white_clip(const struct fos_dev *d, float black)
     }
     int bin = pile >= 0 ? pile : top + 1;           /* top + 1: above every sample of the top bin */
     if (bin < 0) return 4096;
-    int clip = (int) (((float) (d->wbase + (bin << d->wshift)) - black) * 4096 / ((float) WHITE_LEVEL - black) + 0.5f);
+    int clip = (int) (((float) (d->wbase + (bin << d->wshift)) - black) * 4096 / ((float) d->white - black) + 0.5f);
     if (pile < 0 && clip < 4096) clip = 4096;
     /* a frame can't clip far from where its camera does: beyond this the counts are not to be believed */
     return clip < 2048 || clip > 6144 ? 4096 : clip;
@@ -1663,7 +1663,7 @@ static void setup_colour(struct fos_dev *d)
         for (int j = 0; j < 3; j++)
         {
             cam_rgb[i][j] = 0;
-            for (int k = 0; k < 3; k++) cam_rgb[i][j] += XYZ_CAM[i][k] * RGB_XYZ[k][j];
+            for (int k = 0; k < 3; k++) cam_rgb[i][j] += d->xyz[i][k] * RGB_XYZ[k][j];
             sum += cam_rgb[i][j];
         }
         for (int j = 0; j < 3; j++) cam_rgb[i][j] /= sum;
@@ -1694,7 +1694,7 @@ static void setup_colour(struct fos_dev *d)
     inv[2][2] = (m[0][0] * m[1][1] - m[0][1] * m[1][0]) / det;
 
     float black = d->black_n ? (float) d->black_sum / (float) d->black_n : 2048;
-    if (black < 0 || black > WHITE_LEVEL / 2) black = 2048;     /* a damaged file */
+    if (black < 0 || black > d->white / 2) black = 2048;     /* a damaged file */
     d->black16 = (int) (black * 16 + 0.5f);
     /* a blown pixel is neutral when every colour is cut at what the least
      * multiplied one reaches: green, unless a balance turns one down below it */
@@ -1704,7 +1704,7 @@ static void setup_colour(struct fos_dev *d)
     /* raw/16 above black -> 4096 at the white level, balanced, << 14 */
     for (int c = 0; c < 3; c++)
     {
-        d->pre[c] = (int) (pre[c] * 4096 * 16384 / ((WHITE_LEVEL - black) * 16) + 0.5f);
+        d->pre[c] = (int) (pre[c] * 4096 * 16384 / ((d->white - black) * 16) + 0.5f);
         d->mul[c] = 4096;
         for (int j = 0; j < 3; j++) d->mat[c][j] = (int) (inv[c][j] * 4096 + (inv[c][j] < 0 ? -0.5f : 0.5f));
     }
@@ -2141,7 +2141,7 @@ static void stage_key(struct fos_dev *d)
                 }
             fclose(f);
         }
-        fprintf(stderr, "dump: black %d/16, white %d, clip %d, pre %d %d %d, balance %d %d %d\n", d->black16, WHITE_LEVEL, d->clip,
+        fprintf(stderr, "dump: black %d/16, white %d, clip %d, pre %d %d %d, balance %d %d %d\n", d->black16, d->white, d->clip,
                 d->pre[0], d->pre[1], d->pre[2], d->wb[0], d->wb[1], d->wb[2]);
     }
     /* FOS_DUMP_CUT: a byte for each print pixel, 1 where one of its three
@@ -2839,6 +2839,14 @@ int fos_dev_test_grain_clump(const struct fos_look *f, int w, int full) { return
 /* the fold the camera wraps the 257 with, for graintest: only the camera takes that branch, and a
  * mask of the wrong power of two in it passed every other check here (#188, review) */
 int fos_dev_test_fold257(int x) { return fold257(x); }
+
+/* the scale a frame's own name takes it to, 0 where the name is not one we
+ * know and the build's own WHITE_LEVEL stands, for graintest */
+int fos_dev_test_white_for(const char *model) { return white_for_model(model); }
+
+/* the sensor's colours a frame's own name takes it to, 0 where the name is not
+ * one we know and the build's own XYZ_CAM stands, for graintest */
+const float (*fos_dev_test_xyz_for(const char *model))[3] { return xyz_for_model(model); }
 
 void fos_dev_test_plate_reset(void)
 {

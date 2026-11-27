@@ -52,6 +52,8 @@ int  fos_dev_test_fold257(int x);
 void fos_dev_test_grain(uint8_t *o, int w, int h, int c, int w_half, float stock, int mono, int level);
 int  fos_dev_test_grain_half_w(int crop_w, int crop_h, int portrait);
 int  fos_dev_test_grain_strength(float stock);
+int  fos_dev_test_white_for(const char *model);
+const float (*fos_dev_test_xyz_for(const char *model))[3];
 #endif
 
 /* ---------------------------------------------------------------- prints */

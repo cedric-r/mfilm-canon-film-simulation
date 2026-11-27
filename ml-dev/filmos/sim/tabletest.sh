@@ -98,4 +98,17 @@ else
 fi
 cp "$t/sf/gold200.tab" "$L/spektra/gold200.tab"
 
+
+# And the body table the darkroom reads is the one its generator writes: a header
+# edited by hand, or a camera added to the list without regenerating, fails here.
+t=out/camtest
+rm -rf "$t" && mkdir -p "$t"
+python3 ../tools/gencams.py "$t/fos_cams.h" --cameras ../../cameras.txt > "$t/gen.log" 2>&1
+if [ ! -s "$t/fos_cams.h" ]; then
+    bad "the body table did not generate: $(tail -1 "$t/gen.log")"
+elif cmp -s "$t/fos_cams.h" ../fos_cams.h; then
+    ok "the body table is what tools/gencams.py writes"
+else
+    bad "fos_cams.h is not what tools/gencams.py writes: python3 ml-dev/filmos/tools/gencams.py ml-dev/filmos/fos_cams.h"
+fi
 [ "$fail" = 0 ] && echo "tabletest: all passed" || { echo "tabletest: failed (logs in sim/$t)"; exit 1; }

@@ -4,6 +4,10 @@
  *   mkcr2 out.CR2 [--scene chart|street] [--small|--half] [--clrs 2|4] [--slices N,W,LAST] [--fold]
  *                 [--sensor W,H,LEFT,TOP]   another camera's sensor (LibRaw's identify.cpp table)
  *                 [--portrait] [--ev 0] [--raw out.u16]
+ *                 [--model "Canon EOS 6D"]  the body the frame says took it, which fixes the
+ *                                           scale and the sensor colours a computer build
+ *                                           develops it at (a 6D's, where the EOS M's is
+ *                                           the default: sim/cardtest.sh, #132)
  *                 [--white 13900]           the raw value blown samples stop at (a Canon's
  *                                           changes with ISO: sim/colourtest.py, #114)
  *                 [--wb R,B]                the light: what the camera's white balance has to
@@ -457,12 +461,14 @@ int main(int argc, char **argv)
     if (argc < 2)
     {
         fprintf(stderr, "usage: mkcr2 out.CR2 [--scene chart|street] [--small|--half] [--clrs 2|4] "
-                        "[--slices N,W,LAST] [--portrait] [--ev x] [--raw out.u16] [--seed n] [--image photo.pfm] [--white n] [--wb r,b]\n");
+                        "[--slices N,W,LAST] [--portrait] [--ev x] [--raw out.u16] [--seed n] [--image photo.pfm]\n"
+                        "                        [--white n] [--wb r,b] [--model \"Canon EOS 6D\"]\n");
         return 1;
     }
     int clrs = 2, portrait = 0, slices[3] = { 2, 1760, 1760 };
     double ev = 0;
     const char *raw_out = 0;
+    const char *model_name = "Canon EOS M";      /* what a frame says took it */
     unsigned seed = 1;
     for (int i = 2; i < argc; i++)
     {
@@ -503,6 +509,11 @@ int main(int argc, char **argv)
             clip_at = atoi(argv[++i]);
             if (clip_at < BLACK + 1024 || clip_at > 16383) { fprintf(stderr, "--white: %d to 16383\n", BLACK + 1024); return 1; }
         }
+        else if (!strcmp(argv[i], "--model") && i + 1 < argc)
+        {
+            model_name = argv[++i];
+            if (strlen(model_name) > 31) { fprintf(stderr, "--model: longer than the field holds\n"); return 1; }
+        }
         else if (!strcmp(argv[i], "--scene") && i + 1 < argc) scene_kind = !strcmp(argv[++i], "street");
         else if (!strcmp(argv[i], "--image") && i + 1 < argc) { if (!load_pfm(argv[++i])) return 1; }
     }
@@ -524,7 +535,7 @@ int main(int argc, char **argv)
     /* strings and arrays */
     size_t make = data, model = data + 16, date = data + 48, sinfo = data + 80, thumb = data + 128;
     put_bytes(make, "Canon", 6);
-    put_bytes(model, "Canon EOS M", 12);
+    put_bytes(model, model_name, (int) strlen(model_name) + 1);
     put_bytes(date, "2026:10:22 17:45:00", 20);
     int si[17] = { 34, RAW_W, RAW_H, 1, 1, CROP_L, CROP_T, CROP_L + CROP_W - 1, CROP_T + CROP_H - 1,
                    0, 0, 0, 0, 0, 0, 0, 0 };    /* no black mask: the EOS M gives none */
@@ -545,7 +556,7 @@ int main(int argc, char **argv)
 
     struct entry e0[] = {
         { 0x0100, 4, 1, CROP_W }, { 0x0101, 4, 1, CROP_H }, { 0x0102, 3, 1, 8 }, { 0x0103, 3, 1, 6 },
-        { 0x010F, 2, 6, (unsigned) make }, { 0x0110, 2, 12, (unsigned) model },
+        { 0x010F, 2, 6, (unsigned) make }, { 0x0110, 2, (unsigned) strlen(model_name) + 1, (unsigned) model },
         { 0x0111, 4, 1, (unsigned) thumb }, { 0x0112, 3, 1, portrait ? 6 : 1 },
         { 0x0117, 4, 1, sizeof(tiny_jpeg) }, { 0x0132, 2, 20, (unsigned) date }, { 0x8769, 4, 1, (unsigned) exif },
     };

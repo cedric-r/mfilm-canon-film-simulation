@@ -235,4 +235,28 @@ expect "The widest frame: from edge to edge"      "picture 0,16 16384x864"
 # and a whole RAW from a camera: the EOS M's sample
 frame "The sample RAW" develops ../../films/sample/SAMPLE.CR2 "$b/sample"
 
+
+# The body a frame names is the body it is developed for: a computer build has no camera
+# configured, so it reads the frame. A corpus of one body cannot see a binding that is wrong
+# for every other, which is what let the EOS M's scale be used for a 6D, so here are two:
+# each frame must be developed at its own body's scale, and the two prints must differ.
+bd=out/cardtest-body
+rm -rf "$bd" && mkdir -p "$bd"
+./out/mkcr2 "$bd/m.CR2"  --small --seed 7 2>/dev/null
+./out/mkcr2 "$bd/6d.CR2" --small --seed 7 --model "Canon EOS 6D" 2>/dev/null
+devtest_abs=$PWD/out/devtest$san
+for k in m 6d; do
+    ( cd "$bd" && FOS_MIX=1 FOS_DUMP_LIN="$k.lin" FOS_JPEG="$k.jpg" "$devtest_abs" "$k.CR2" "$k.fop" > "$k.log" 2>&1 ) || :
+done
+if grep -q "white 13600" "$bd/m.log" && grep -q "white 15490" "$bd/6d.log"; then
+    echo "ok    A second body: each frame at its own body's scale"
+else
+    echo "FAIL  A second body: $(grep -h 'dump:' "$bd/m.log" "$bd/6d.log" | tr '\n' ' ')"; fail=1
+fi
+if [ -s "$bd/m.jpg" ] && [ -s "$bd/6d.jpg" ] && ! cmp -s "$bd/m.jpg" "$bd/6d.jpg"; then
+    echo "ok    A second body: two bodies, two prints"
+else
+    echo "FAIL  A second body:$( [ -s "$bd/m.jpg" ] || echo ' nothing printed for the EOS M frame')$( [ -s "$bd/6d.jpg" ] || echo ' nothing printed for the 6D frame')$( cmp -s "$bd/m.jpg" "$bd/6d.jpg" && echo ' the two prints are the same')"; fail=1
+fi
+
 [ $fail = 0 ] && echo "cardtest: all passed${san:+, with ASan and UBSan}" || { echo "cardtest: failed (log: sim/$log)"; exit 1; }
