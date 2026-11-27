@@ -271,10 +271,16 @@ static void tex_rect(struct fos_can *c, int u, int v, int w, int h, int k)
 static void tex_glyph(struct fos_can *c, const struct fos_font *f, const struct fos_glyph *g,
                       int u, int v, int k, int vertical)
 {
-    const uint8_t *p = f->bits + g->off;
+    /* a glyph with no width never advances a column, so the loop below would read to the end of the
+     * blob and past it. The runs themselves are checked by the loader, which walks them to the
+     * w * h pixels a glyph claims; the bits end where the glyph table begins, and that is the last
+     * byte this may read whichever way the blob got here */
+    if (!g->w || !g->h) return;
+    const uint8_t *p = f->bits + g->off, *end = (const uint8_t *) f->glyphs;
     int col = 0, row = 0;
     while (row < g->h)
     {
+        if (p >= end) return;
         int b = *p++;
         int run, val;
         if (b & 0x80) { run = (b & 0x7F) + 1; val = 0; }
@@ -298,6 +304,7 @@ static int tex_text(struct fos_can *c, const struct fos_font *f, int u, int base
 {
     int w = fos_text_w(f, s, track);
     int pen = (u - (align + 1) * w / 2) * 16;
+    if (!f->lut) return 0;               /* nothing loaded: the other readers guard this way */
     for (const char *q = s; *q; q++)
     {
         int i = f->lut[(uint8_t) *q];
@@ -314,6 +321,7 @@ static void tex_vtext(struct fos_can *c, const struct fos_font *f, int u, int v,
 {
     int w = fos_text_w(f, s, track);
     int pen = (v + w / 2) * 16;
+    if (!f->lut) return;
     for (const char *q = s; *q; q++)
     {
         int i = f->lut[(uint8_t) *q];

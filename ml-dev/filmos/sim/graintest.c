@@ -14,6 +14,7 @@
 #include <math.h>
 #include "../fos.h"
 #include "../fos_dev.h"
+#include "../fos_gfx.h"
 
 /* the camera's port, as far as a test needs it: nothing */
 void *fos_port_alloc(int size) { return malloc(size); }
@@ -57,6 +58,103 @@ static double rho(double u)
             return RHO[i - 1][1] + (RHO[i][1] - RHO[i - 1][1]) *
                    (u - RHO[i - 1][0]) / (RHO[i][0] - RHO[i - 1][0]);
     return 0.0;
+}
+
+/* The font blob the camera reads, and what the loader has to refuse. tex_glyph and draw_glyph walk
+ * a glyph's runs to the w * h pixels it claims, so a glyph pointing past its bits, or whose runs
+ * cannot reach that many pixels, is read past the font: the loader has to turn both away. The
+ * shipped blob is checked too, so a bound that refuses a good font is caught here rather than on a
+ * camera drawing nothing. */
+/* where out/FOSFONT.BIN is, from the way this was run: beside the binary */
+static char font_blob[600];
+
+static void font_checks(void)
+{
+    char b[200];
+    static uint8_t blob[1 << 20], bad[1 << 20];
+    FILE *fp = fopen(font_blob, "rb");
+    if (!fp) { ok("the font blob is where the card keeps it", 0, font_blob); return; }
+    int size = (int) fread(blob, 1, sizeof(blob), fp);
+    fclose(fp);
+    if (size == (int) sizeof(blob)) { ok("the font blob fits the buffer", 0, "1 MB or larger"); return; }
+
+    int loaded = fos_fonts_load(blob, size);
+    ok("the shipped font blob loads", loaded == 1, font_blob);
+    if (!loaded) return;
+
+    /* everything taken from the good blob is taken now: a refused blob zeroes the slot it was
+     * reading and leaves the fonts after it pointing into the refused copy, so the live fonts cannot
+     * be asked for offsets once a refusal has happened */
+    size_t goff = (size_t) ((const uint8_t *) fos_font_xs.glyphs - blob);
+    /* where xs's bits end: the glyph table starts there, so the distance is the bitmap and the
+     * padding after it, not the gap to the next font, which also holds this one's glyphs, lut and
+     * kerning. It is 4272 here, and the bitmap itself 4270 */
+    size_t bits_xs = (size_t) ((const uint8_t *) fos_font_xs.glyphs - (const uint8_t *) fos_font_xs.bits);
+    size_t lo = (size_t) ((const uint8_t *) fos_font_xs.lut - blob);
+    size_t nglyphs_xs = (size_t) ((const uint8_t *) fos_font_xs.lut - (const uint8_t *) fos_font_xs.glyphs) / 8;
+    struct fos_glyph *g;
+
+    /* a glyph pointing past its bitmap */
+    memcpy(bad, blob, size);
+    g = (struct fos_glyph *) (void *) (bad + goff);
+    g[1].off = 0xFFFF;
+    snprintf(b, sizeof(b), "a glyph at 0xFFFF in a %d byte bitmap", (int) bits_xs);
+    int r = fos_fonts_load(bad, size);
+    ok("a glyph past its bitmap is refused", r == 0, b);
+    fos_fonts_load(blob, size);
+
+    /* a glyph whose runs cannot reach the pixels it claims */
+    memcpy(bad, blob, size);
+    g = (struct fos_glyph *) (void *) (bad + goff);
+    g[1].w = 255; g[1].h = 255;
+    snprintf(b, sizeof(b), "a glyph claiming 255 by 255 pixels in %d bytes", (int) bits_xs);
+    r = fos_fonts_load(bad, size);
+    ok("a glyph whose runs cannot reach its pixels is refused", r == 0, b);
+    fos_fonts_load(blob, size);
+
+    /* a glyph of no width: it never advances a column, so every reader of its runs walks off the
+     * end rather than stopping. Its rows are left as they were, so this is not a space glyph, whose
+     * width is the thing that is real about it */
+    memcpy(bad, blob, size);
+    g = (struct fos_glyph *) (void *) (bad + goff);
+    g[1].w = 0;
+    snprintf(b, sizeof(b), "a glyph of no width and %d rows, at %d", (int) g[1].h, (int) g[1].off);
+    r = fos_fonts_load(bad, size);
+    ok("a glyph of no width is refused", r == 0, b);
+    fos_fonts_load(blob, size);
+
+    /* a refusal that happens after nine fonts have been read: every slot has to come back zero, or
+     * the fonts the live-view HUD draws through point into the blob, which the caller frees. The last
+     * font's own header is 20 bytes before its bits, and its kerning count is its third word */
+    memcpy(bad, blob, size);
+    {
+        uint32_t *hdr = (uint32_t *) (void *) ((uint8_t *) bad + (size_t) ((const uint8_t *) fos_font_lsm.bits - blob) - 20);
+        hdr[2] = 0x40000;                 /* 262144 kerning pairs: not a font any camera carries */
+    }
+    static const struct fos_font *slots[] = { &fos_font_xs, &fos_font_sm, &fos_font_md, &fos_font_mdb,
+                                             &fos_font_lg, &fos_font_xl, &fos_font_num, &fos_font_lbig,
+                                             &fos_font_lname, &fos_font_lsm,
+                                             &fos_font_xs_fine, &fos_font_sm_fine, &fos_font_mdb_fine };
+    r = fos_fonts_load(bad, size);
+    int left = 0;                        /* counted after the refusal, which is the whole point */
+    for (unsigned i = 0; i < sizeof(slots) / sizeof(slots[0]); i++) if (slots[i]->lut) left++;
+    snprintf(b, sizeof(b), "refused in the last of ten fonts: %d of %d fonts still point at the blob",
+             left, (int) (sizeof(slots) / sizeof(slots[0])));
+    ok("a refusal leaves no font pointing at the blob", r == 0 && left == 0, b);
+    fos_fonts_load(blob, size);
+
+    /* and a lut naming a glyph the font has not got: nglyphs is one past the end of them */
+    if (nglyphs_xs < 255)
+    {
+        memcpy(bad, blob, size);
+        bad[lo] = (uint8_t) nglyphs_xs;
+        snprintf(b, sizeof(b), "a lut naming glyph %d of %d", (int) nglyphs_xs, (int) nglyphs_xs);
+        r = fos_fonts_load(bad, size);
+        ok("a lut naming a glyph that is not there is refused", r == 0, b);
+        fos_fonts_load(blob, size);
+    }
+    else
+        ok("a lut naming a glyph that is not there is refused", 1, "skipped: this font has 255 glyphs");
 }
 
 /* the grain drawn: its strength in levels, and how much a pixel's grain agrees with the one
@@ -227,9 +325,28 @@ static void check_plate(const char *lg, const char *p2)
     }
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
     char b[200];
+    (void) argc;
+    /* FOSFONT.BIN, from wherever this was run: beside the binary, or under the repository root. The
+     * first that opens is the one the checks read, and whichever it settles on is printed with them,
+     * so a run that cannot find the blob says which name it used */
+    static char beside[600];
+    static const char *cand[] = { beside, "FOSFONT.BIN", "out/FOSFONT.BIN", "ml-dev/filmos/sim/out/FOSFONT.BIN" };
+    if (argv && argv[0] && strrchr(argv[0], '/'))
+    {
+        snprintf(beside, sizeof(beside), "%s", argv[0]);
+        char *slash = strrchr(beside, '/');
+        snprintf(slash + 1, sizeof(beside) - (size_t) (slash + 1 - beside), "FOSFONT.BIN");
+    }
+    for (unsigned i = 0; i < sizeof(cand) / sizeof(cand[0]); i++)
+    {
+        if (!cand[i][0]) continue;
+        FILE *t = fopen(cand[i], "rb");
+        if (t) { fclose(t); snprintf(font_blob, sizeof(font_blob), "%s", cand[i]); break; }
+    }
+    if (!font_blob[0]) snprintf(font_blob, sizeof(font_blob), "%s", cand[3]);
     static const int mono[2] = { 0, 1 };
     /* the clumps, in 1/256 of a print pixel: a draw a pixel, then a quarter of one and up */
     static const int cs[] = { 0, 64, 128, 256, 384, 512, 640 };
@@ -425,6 +542,7 @@ int main(void)
         snprintf(b, sizeof(b), "STOCK_GRAIN with no spread comes to %d, against the 2400 the rest of the suite's numbers were read at", s);
         ok("the strength's absolute scale is the one the checks were read at", s == 2400, b);
     }
+    font_checks();
 
     printf("graintest: %s\n", fail ? "failed" : "all passed");
     return fail;
