@@ -26,6 +26,14 @@ Install
   3. Put the card in the camera, MENU > Firmware ver. > update, and follow the screen.
      This sets the camera to start Magic Lantern from the card.
   4. Switch the camera on. The film shelf appears once the camera has started.
+  Each time the card comes out, read "Taking the card out" below first.
+
+Taking the card out
+  Switch the camera off and open the card door. Then wait for the card light to blink and go out
+  (or 5 seconds, even if it doesn't blink) before you take the card out. Opening the door wakes
+  the camera, even switched off, and Canon's firmware can use the card for a few seconds without
+  lighting the light. Taken out too soon, the camera can hang and drain its battery: take the
+  battery out and put it back, and it starts again.
 
 1300D
   In step 2, copy everything but the folder mlinstall-for-your-computer. Step 3 is done from a computer

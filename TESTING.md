@@ -54,6 +54,14 @@ its line in the *Modules* tab says why. Tell us what it says.
 On a [Canon EOS 1300D](#canon-eos-1300d) or [Canon EOS M2](#canon-eos-m2), read its section below
 first: the M2's card must not be formatted, and neither camera uses *Firmware ver.* → update.
 
+> **Taking the card out.** Each time, switch the camera off and open the card door, then wait for
+> the card light to blink and go out (or 5 seconds, even if it doesn't blink) before you take the
+> card out. Opening the door wakes the camera, even switched off, and Canon's firmware can use the
+> card for a few seconds without lighting the light. Taken out too soon, the camera can hang and
+> drain its battery: take the battery out and put it back, and it starts again
+> ([Magic Lantern's INSTALL.txt](https://github.com/reticulatedpines/magiclantern_simplified/blob/ed3e7c0dfacfdeaf3349dee73edf9e3621217462/doc/INSTALL.txt),
+> [FAQ.txt](https://github.com/reticulatedpines/magiclantern_simplified/blob/ed3e7c0dfacfdeaf3349dee73edf9e3621217462/doc/FAQ.txt)).
+
 1. Format a card **in the camera**, then copy everything from the zip to the card's root.
 2. Camera off, card in, camera on. MENU → *Firmware ver.* → update (first time only: this lets the
    camera start Magic Lantern from the card).

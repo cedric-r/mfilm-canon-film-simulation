@@ -162,10 +162,12 @@ try {
                   'ig.3.easy', 'ig.e.t', 'ig.e.d', 'ig.e.or'];
   // what it says and doesn't say; how many menu paths steps 4 and 6 show, and how many of step 5's lists have
   // ML-SETUP.FIR; where step 6 links to
+  // every camera: wait after opening the card door before taking the card out (Magic Lantern's INSTALL.txt, #212)
+  const EVERY = ['ig.4.door'];
   const KINDS = [
-    { p: platform, says: [...UPDATE, ...NOT_M2], never: [], menus: 2, fir: 2, link: '' },
-    { p: USB, says: ['ig.4.d', 'ig.6u.d', 'ig.h.5u.a'], never: UPDATE, menus: 1, fir: 0, link: '#canon-eos-1300d' },
-    { p: M2, says: ['ig.1m.tip', 'ig.4m.d', 'ig.4m.tip', 'ig.6m.d', 'ig.h.1m.a', 'ig.h.5m.a'], never: [...UPDATE, ...NOT_M2],
+    { p: platform, says: [...EVERY, ...UPDATE, ...NOT_M2], never: [], menus: 2, fir: 2, link: '' },
+    { p: USB, says: [...EVERY, 'ig.4.d', 'ig.6u.d', 'ig.h.5u.a'], never: UPDATE, menus: 1, fir: 0, link: '#canon-eos-1300d' },
+    { p: M2, says: [...EVERY, 'ig.1m.tip', 'ig.4m.d', 'ig.4m.tip', 'ig.6m.d', 'ig.h.1m.a', 'ig.h.5m.a'], never: [...UPDATE, ...NOT_M2],
       menus: 0, fir: 0, link: '#canon-eos-m2' },
   ];
   for (const lang of ['English', 'Thai']) {
