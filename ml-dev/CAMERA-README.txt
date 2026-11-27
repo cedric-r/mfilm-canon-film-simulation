@@ -23,10 +23,11 @@ Install
      level must show autoexec.bin, ML-SETUP.FIR and the ML folder, not a folder with them inside
      (unzipping often makes one). Without the ML folder there, the update in step 3 stops with
      "ML directory not found!".
+     Before the card comes out of the camera, here and each time after, read "Taking the card
+     out" below.
   3. Put the card in the camera, MENU > Firmware ver. > update, and follow the screen.
      This sets the camera to start Magic Lantern from the card.
   4. Switch the camera on. The film shelf appears once the camera has started.
-  Each time the card comes out, read "Taking the card out" below first.
 
 Taking the card out
   Switch the camera off and open the card door. Then wait for the card light to blink and go out
